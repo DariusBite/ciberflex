@@ -9,9 +9,9 @@ public class MySQLConexion {
 		Connection con = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");//Carga el Driver MySql
-			String url = "jdbc:mysql://localhost/ciberfarma";//El nombre de la BD despues del Localhost
+			String url = "jdbc:mysql://localhost/CIBERFLEX";//El nombre de la BD despues del Localhost
 			String usr = "root";//El usuario root del mysql
-			String psw = "mysql";//La contraseña del usuario root
+			String psw = "";//La contraseña del usuario root
 			con = DriverManager.getConnection(url, usr, psw);//Conexion con la base de datos
 		} catch (ClassNotFoundException ex) {
 			System.out.println("Error >> Driver no Instalado!!");
