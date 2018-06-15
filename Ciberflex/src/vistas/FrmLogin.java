@@ -51,7 +51,7 @@ public class FrmLogin extends JFrame {
 	 * Create the frame.
 	 */
 	public FrmLogin() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 202, 217);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -126,7 +126,16 @@ public class FrmLogin extends JFrame {
 			
 			if(u != null) {
 				UserSession.setId(u.getId());
-				mensaje("Usuario Logueado");
+				if (u.getTipo().equals("Cliente")){
+					FrmListaContenido v = new FrmListaContenido();
+					v.setVisible(true);
+					dispose();
+				};
+				if(u.getTipo().equals("Administrador")){
+					PanelAdministrador v = new PanelAdministrador();
+					v.setVisible(true);
+					dispose();
+				};
 			}
 			else mensaje("Usuario o clave incorrecto");
 			

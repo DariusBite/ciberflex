@@ -7,24 +7,46 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import com.toedter.calendar.JDateChooser;
 
+import mantenimientos.GestionPlan;
+import mantenimientos.GestionUsuario;
+import modelado.Plan;
+import modelado.UserSession;
+import modelado.Usuario;
+import utils.Lugares;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 public class FrmEditarPerfil extends JFrame {
 
+	private int userId = UserSession.getId();
+	private Usuario u = null;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JPasswordField passwordField;
-	private JPasswordField passwordField_1;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_4;
-	private JTextField textField_5;
+	private JTextField txtEmail;
+	private JPasswordField txtPass;
+	private JPasswordField txtPass2;
+	private JTextField txtNombre;
+	private JTextField txtApellido;
+	private JTextField txtDirec;
+	private JTextField txtTel;
+	private JDateChooser txtFecha;
+	private JComboBox cboCiudad;
+	private JComboBox cboProvincia;
+	private JComboBox cboPlan;
 
 	/**
 	 * Launch the application.
@@ -46,7 +68,7 @@ public class FrmEditarPerfil extends JFrame {
 	 * Create the frame.
 	 */
 	public FrmEditarPerfil() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 420);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -88,72 +110,263 @@ public class FrmEditarPerfil extends JFrame {
 		contentPane.add(lblDireccion);
 		
 		JLabel lblCiudad = new JLabel("Ciudad");
-		lblCiudad.setBounds(10, 217, 46, 14);
+		lblCiudad.setBounds(10, 242, 46, 14);
 		contentPane.add(lblCiudad);
 		
 		JLabel lblProvincia = new JLabel("Provincia");
-		lblProvincia.setBounds(10, 242, 71, 14);
+		lblProvincia.setBounds(10, 217, 71, 14);
 		contentPane.add(lblProvincia);
 		
 		JLabel lblTelefono = new JLabel("Telefono");
 		lblTelefono.setBounds(10, 267, 71, 14);
 		contentPane.add(lblTelefono);
 		
-		textField = new JTextField();
-		textField.setBounds(145, 39, 160, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		txtEmail = new JTextField();
+		txtEmail.setEditable(false);
+		txtEmail.setBounds(145, 39, 160, 20);
+		contentPane.add(txtEmail);
+		txtEmail.setColumns(10);
 		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(145, 64, 160, 20);
-		contentPane.add(passwordField);
+		txtPass = new JPasswordField();
+		txtPass.setBounds(145, 64, 160, 20);
+		contentPane.add(txtPass);
 		
-		passwordField_1 = new JPasswordField();
-		passwordField_1.setBounds(145, 89, 160, 20);
-		contentPane.add(passwordField_1);
+		txtPass2 = new JPasswordField();
+		txtPass2.setBounds(145, 89, 160, 20);
+		contentPane.add(txtPass2);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(145, 114, 160, 20);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+		txtNombre = new JTextField();
+		txtNombre.setBounds(145, 114, 160, 20);
+		contentPane.add(txtNombre);
+		txtNombre.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(145, 139, 160, 20);
-		contentPane.add(textField_2);
-		textField_2.setColumns(10);
+		txtApellido = new JTextField();
+		txtApellido.setBounds(145, 139, 160, 20);
+		contentPane.add(txtApellido);
+		txtApellido.setColumns(10);
 		
-		textField_4 = new JTextField();
-		textField_4.setBounds(145, 189, 160, 20);
-		contentPane.add(textField_4);
-		textField_4.setColumns(10);
+		txtDirec = new JTextField();
+		txtDirec.setBounds(145, 189, 160, 20);
+		contentPane.add(txtDirec);
+		txtDirec.setColumns(10);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(145, 214, 160, 20);
-		contentPane.add(comboBox);
+		cboCiudad = new JComboBox();
+		cboCiudad.setBounds(145, 239, 160, 20);
+		cboCiudad.setModel(new DefaultComboBoxModel(Lugares.ciudades[0]));
+		contentPane.add(cboCiudad);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(145, 239, 160, 20);
-		contentPane.add(comboBox_1);
+		cboProvincia = new JComboBox();
+		cboProvincia.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				changeCity();
+			}
+		});
+		cboProvincia.setBounds(145, 214, 160, 20);
+		cboProvincia.setModel(new DefaultComboBoxModel(Lugares.provincias));
+		contentPane.add(cboProvincia);
 		
-		textField_5 = new JTextField();
-		textField_5.setBounds(145, 264, 160, 20);
-		contentPane.add(textField_5);
-		textField_5.setColumns(10);
+		txtTel = new JTextField();
+		txtTel.setBounds(145, 264, 160, 20);
+		contentPane.add(txtTel);
+		txtTel.setColumns(10);
 		
 		JLabel lblPlan = new JLabel("Plan");
 		lblPlan.setBounds(10, 292, 46, 14);
 		contentPane.add(lblPlan);
 		
-		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setBounds(145, 289, 160, 20);
-		contentPane.add(comboBox_2);
+		cboPlan = new JComboBox();
+		cboPlan.setBounds(145, 295, 160, 20);
+		contentPane.add(cboPlan);
 		
 		JButton btnGuardar = new JButton("Guardar");
+		btnGuardar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				guardar();
+			}
+		});
 		btnGuardar.setBounds(169, 343, 98, 28);
 		contentPane.add(btnGuardar);
 		
-		JDateChooser dateChooser = new JDateChooser();
-		dateChooser.setBounds(145, 164, 160, 20);
-		contentPane.add(dateChooser);
+		txtFecha = new JDateChooser();
+		txtFecha.setBounds(145, 164, 160, 20);
+		contentPane.add(txtFecha);
+		setPlans();
+		setUser();
+	}
+	void mostrarFecha(){
+		/*SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Date d = new Date();
+		dateChooser.setDate(sdf.d);*/
+	}
+	
+	void setUser(){
+		try {
+			GestionUsuario gu = new GestionUsuario();
+			u = gu.obtenerUsuario(userId);
+			System.out.println("provincia: "+u.getProvincia());
+			String fecha = u.getFechanacimiento();
+			SimpleDateFormat smf = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = smf.parse(fecha);
+			txtFecha.setDate(date);
+			txtEmail.setText(u.getEmail());
+			txtPass.setText(u.getPassword());
+			txtPass2.setText(u.getPassword());
+			txtNombre.setText(u.getNombre());
+			txtApellido.setText(u.getApellido());
+			txtTel.setText(u.getTelefono());
+			txtDirec.setText(u.getDireccion());
+			if(u.getProvincia()== null){
+				cboProvincia.setSelectedItem(0);
+				cboCiudad.setModel(new DefaultComboBoxModel(Lugares.setCiudades(0)));
+			}
+			else {
+				cboProvincia.setSelectedItem(u.getProvincia());
+				changeCity();
+			}
+			if(u.getCiudad() != null){
+				cboCiudad.setSelectedItem(u.getCiudad());
+			}
+			cboPlan.setSelectedIndex(u.getIdPlan());
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
+	void changeCity(){
+		System.out.println(cboProvincia.getSelectedIndex());
+		cboCiudad.setModel(new DefaultComboBoxModel(Lugares.setCiudades(cboProvincia.getSelectedIndex())));
+	}
+	
+	void guardar(){
+		String pass, pass2, nombre, apellido, fnacimiento, direc, tel, prov, ciud, mensaje = "Los siguientes datos contienen errores";
+		int plan, errors = 0;
+		Date actualDate;
+		GestionUsuario gu = new GestionUsuario();
+		
+		pass = leerPass();
+		pass2 = leerPass2();
+		nombre = leerNombre();
+		apellido = leerApellido();
+		fnacimiento = leerFecha();
+		direc = leerDirec();
+		prov = leerProv();
+		ciud = leerCiud();
+		plan = leerPlan();
+		tel = leerTel();
+		actualDate = new Date();
+		
+		if(!pass.matches(".{6,20}")){
+			mensaje = mensaje + "\n- Contraseña muy corta o muy larga";
+			errors++;			
+		};
+		if(!pass2.equals(pass)){
+			mensaje = mensaje + "\n- Las contraseñas no coinciden";
+			errors++;			
+		};
+		if(!nombre.matches(".{1,50}")){
+			mensaje = mensaje + "\n- Nombre";
+			errors++;	
+		};
+		if(!apellido.matches(".{1,50}")){
+			mensaje = mensaje + "\n- Apelldio";
+			errors++;	
+		};
+		if(leerDate().compareTo(actualDate) >= 0){
+			mensaje = mensaje + "\n- Error en fecha";
+			errors++;
+		};
+		if(direc.length() >= 120){
+			mensaje = mensaje+ "\n- Direccion muy larga";
+			errors++;
+		};
+		if(tel.length() >= 12){
+			mensaje = mensaje+ "\n- Telefono muy largo";
+			errors++;
+		};
+		
+		if(errors == 0){
+			u.setPassword(pass);
+			u.setNombre(nombre);
+			u.setApellido(apellido);
+			u.setFechanacimiento(fnacimiento);
+			u.setCiudad(ciud);
+			u.setProvincia(prov);
+			u.setIdPlan(plan);
+			u.setDireccion(direc);
+			u.setTelefono(tel);
+			int ok = gu.actualizarUsuario(u);
+			if(ok == 0) mensaje("Error al actualizar usuario en la BD");
+			else {
+				mensaje("Actualizacion exitosa");
+				dispose();
+			}
+		}
+		else {
+			mensaje(mensaje);
+		}
+		
+	}
+	
+	void setPlans(){
+		GestionPlan gp = new GestionPlan();
+		ArrayList<Plan> lista = gp.listarPlanes();
+		
+		if(!lista.isEmpty()){
+			for(Plan p : lista){
+				cboPlan.addItem(p.getNombre_plan());
+			}
+		}
+	}
+	
+	String leerNombre(){
+		return txtNombre.getText();
+	}
+	
+	String leerApellido(){
+		return txtApellido.getText();
+	}
+	
+	String leerFecha(){
+		SimpleDateFormat sdf = new SimpleDateFormat("YYYY/MM/dd");
+		return sdf.format(txtFecha.getDate());
+	}
+	
+	Date leerDate(){
+		return txtFecha.getDate();
+	}
+	
+	String leerDirec(){
+		return txtDirec.getText();
+	}
+	
+	String leerTel(){
+		return txtTel.getText();
+	}
+	
+	String leerProv(){
+		return String.valueOf(cboProvincia.getSelectedItem());
+	}
+	
+	String leerCiud(){
+		return String.valueOf(cboCiudad.getSelectedItem());
+	}
+	
+	int leerPlan(){
+		return cboPlan.getSelectedIndex()+1;
+	}
+	
+	String leerPass(){
+		return txtPass.getText();
+	}
+	
+	String leerPass2(){
+		return txtPass2.getText();
+	}
+
+	void mensaje(String mensaje){
+		JOptionPane.showMessageDialog(null, mensaje);
+
 	}
 }

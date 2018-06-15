@@ -1,11 +1,14 @@
 package vistas;
 
+import java.io.File;
+
 import javafx.application.Application;
 import javafx.collections.ListChangeListener;
 import javafx.collections.MapChangeListener;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.media.Track;
 import javafx.stage.Stage;
@@ -14,32 +17,26 @@ import javafx.stage.Stage;
  * A sample media player which loops indefinitely over the same video
  */
 public class FrmVideoPlayer extends Application {
-	private static String MEDIA_URL = "file:///"+System.getProperty("user.dir").replace("\\", "/")+"/videos/Rick.mp4";
+	public static String miniUrl = "videos/Rick.mp4";
+	private String workingDir = System.getProperty("user.dir");
+	private File f = new File(workingDir, miniUrl);
 
-	private static String arg1;
+    public static void main(String[] args) {
+    	launch(args);
+    }
 
-    @Override public void start(Stage stage) {
+    @Override 
+    public void start(Stage stage) {
         stage.setTitle("Media Player");
 
-// Create media player
-        Media media = new Media((arg1 != null) ? arg1 : MEDIA_URL);
-        javafx.scene.media.MediaPlayer mediaPlayer = new javafx.scene.media.MediaPlayer(media);
+        // Create media player
+        Media media = new Media(f.toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
-        mediaPlayer.setCycleCount(javafx.scene.media.MediaPlayer.INDEFINITE);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
 
-// Print track and metadata information
-        media.getTracks().addListener(new ListChangeListener<Track>() {
-public void onChanged(Change<? extends Track> change) {
-                System.out.println("Track> "+change.getList());
-            }
-        });
-        media.getMetadata().addListener(new MapChangeListener<String,Object>() {
-public void onChanged(MapChangeListener.Change<? extends String, ? extends Object> change) {
-                System.out.println("Metadata> "+change.getKey()+" -> "+change.getValueAdded());
-            }
-        });
 
-// Add media display node to the scene graph
+        // Add media display node to the scene graph
         MediaView mediaView = new MediaView(mediaPlayer);
         Group root = new Group();
         Scene scene = new Scene(root,1280,600);
@@ -47,11 +44,5 @@ public void onChanged(MapChangeListener.Change<? extends String, ? extends Objec
         stage.setScene(scene);
         stage.show();
     }
-
-    public static void main(String[] args) {
-    	if (args.length > 0) {
-            arg1 = args[0];
-        }
-        Application.launch(args);
-    }
+    
 }
