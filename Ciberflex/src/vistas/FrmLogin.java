@@ -132,7 +132,7 @@ public class FrmLogin extends JFrame {
 					dispose();
 				};
 				if(u.getTipo().equals("Administrador")){
-					PanelAdministrador v = new PanelAdministrador();
+					FrmPanelAdministrador v = new FrmPanelAdministrador();
 					v.setVisible(true);
 					dispose();
 				};

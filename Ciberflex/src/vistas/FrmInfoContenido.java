@@ -132,8 +132,7 @@ public class FrmInfoContenido extends JFrame {
 	}
 	
 	void openVideo(String url){
-		/*FrmVideoPlayer vp = new FrmVideoPlayer();
-		vp.miniUrl = url;
-		vp.launch(FrmVideoPlayer.class, args);*/
+		PruebaVideo pv = new PruebaVideo(url);
+		pv.setVisible(true);
 	}
 }

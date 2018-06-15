@@ -15,7 +15,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JSeparator;
 import java.awt.Font;
 
-public class PanelAdministrador extends JFrame {
+public class FrmPanelAdministrador extends JFrame {
 
 	private JPanel contentPane;
 
@@ -26,7 +26,7 @@ public class PanelAdministrador extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PanelAdministrador frame = new PanelAdministrador();
+					FrmPanelAdministrador frame = new FrmPanelAdministrador();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -38,7 +38,7 @@ public class PanelAdministrador extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public PanelAdministrador() {
+	public FrmPanelAdministrador() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 730, 485);
 		contentPane = new JPanel();
