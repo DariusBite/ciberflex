@@ -151,4 +151,45 @@ public class GestionContenido implements ContenidoInterface{
 		return c;
 	}
 
+	@Override
+	public ArrayList<Contenido> buscarContenido(String texto) {
+		ArrayList<Contenido> lista = new ArrayList<Contenido>();
+		ResultSet rs = null; // tipo de resultado
+		Connection con = null;
+		PreparedStatement pst = null;
+		try {
+		   con = MySQLConexion.getConexion(); 
+		   String sql = "select * from 	CONTENIDOS where TITULO_CONTENIDO like %?%"; // sentencia sql
+
+		   pst = con.prepareStatement(sql);
+		   // parámetros según la sentencia	
+		   pst.setString(1, texto);	   	   
+		   
+		   rs = pst.executeQuery(); // tipo de ejecución
+		   
+		   // Acciones adicionales en caso de consultas
+		   while (rs.next()){
+			   Contenido c = new Contenido();
+			   c.setId_contenido(rs.getInt(1));
+			   c.setTitulo_contenido(rs.getString(2));
+			   c.setDescripcion_contenido(rs.getString(3));
+			   c.setTipo_contenido(rs.getString(4));
+			   c.setUrl_image_contenido(rs.getString(5));
+			   lista.add(c);
+		   }
+			
+		} catch (Exception e) {
+			System.out.println("Error en la sentencia " + e.getMessage());
+		} finally {
+		  try {
+		      if (pst != null) pst.close();
+		      if (con != null) con.close();
+		   } catch (SQLException e) {
+		      System.out.println("Error al cerrar ");
+		   }
+		}
+
+		return lista;
+	}
+
 }

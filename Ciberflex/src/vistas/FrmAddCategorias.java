@@ -83,6 +83,11 @@ public class FrmAddCategorias extends JFrame {
 		contentPane.add(btnGuardar);
 		
 		JButton btnSalir = new JButton("Salir");
+		btnSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				closeWindow();
+			}
+		});
 		btnSalir.setBounds(335, 70, 89, 23);
 		contentPane.add(btnSalir);
 	}
@@ -112,6 +117,8 @@ public class FrmAddCategorias extends JFrame {
 			if(ok == 0) mensaje("Error al registrar usuario en la BD");
 			else {
 				mensaje("Registro exitoso");
+				FrmPanelAdministrador fpa = new FrmPanelAdministrador();
+				fpa.setVisible(true);
 				dispose();
 			}
 		}
@@ -129,5 +136,10 @@ public class FrmAddCategorias extends JFrame {
 	void mensaje(String mensaje){
 		JOptionPane.showMessageDialog(null, mensaje);
 
+	}
+	void closeWindow(){
+		FrmPanelAdministrador fpa = new FrmPanelAdministrador();
+		fpa.setVisible(true);
+		dispose();
 	}
 }

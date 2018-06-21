@@ -1,27 +1,20 @@
 package vistas;
 
-import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import mantenimientos.GestionContenido;
 import modelado.Contenido;
 
-import javax.swing.JLabel;
-import java.awt.Font;
 import java.awt.Image;
 
-import javax.swing.JTextField;
 import javax.swing.JButton;
-import javax.swing.JScrollBar;
-import javax.naming.directory.SearchResult;
-import javax.naming.directory.Attributes;
-import javax.swing.JToggleButton;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
+import javax.swing.BorderFactory;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
@@ -29,16 +22,18 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingConstants;
-import java.awt.FlowLayout;
 import javax.swing.ImageIcon;
 
 public class FrmListaContenido extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JScrollPane scrollPane;
 	private JPanel panel;
+	private JMenuItem mntmSalir;
 
 	/**
 	 * Launch the application.
@@ -69,7 +64,7 @@ public class FrmListaContenido extends JFrame {
 		contentPane.setLayout(null);
 		
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 97, 21);
+		menuBar.setBounds(0, 0, 120, 21);
 		contentPane.add(menuBar);
 		
 		JMenu mnUsuario = new JMenu("Usuario");
@@ -82,6 +77,20 @@ public class FrmListaContenido extends JFrame {
 			}
 		});
 		mnUsuario.add(mntmPerfil);
+		
+		mntmSalir = new JMenuItem("Salir");
+		mntmSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				salir();
+			}
+		});
+		mnUsuario.add(mntmSalir);
+		
+		JMenu mnContenido = new JMenu("Contenido");
+		menuBar.add(mnContenido);
+		
+		JMenuItem mntmBuscarTitulos = new JMenuItem("Buscar titulos");
+		mnContenido.add(mntmBuscarTitulos);
 		
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 19, 585, 405);
@@ -102,7 +111,7 @@ public class FrmListaContenido extends JFrame {
 	void loadContendio(){
 		GestionContenido gc = new GestionContenido();
 		ArrayList<Contenido> lista = gc.listarContenido();
-		int x= 10, y= 10;
+		int x= 10, y= 10, l=210;
 		
 		for(Contenido c : lista){
 			ImageIcon imageIcon = new ImageIcon(c.getUrl_image_contenido()); // load the image to a imageIcon
@@ -110,7 +119,9 @@ public class FrmListaContenido extends JFrame {
 			Image newimg = image.getScaledInstance(150, 200,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
 			imageIcon = new ImageIcon(newimg);  // transform it back
 			JButton btnContenido = new JButton(c.getTitulo_contenido());
+			Border emptyBorder = BorderFactory.createEmptyBorder();
 			btnContenido.setIcon(imageIcon);
+			btnContenido.setBorder(emptyBorder);
 			btnContenido.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					openInfoContenido(c.getId_contenido());
@@ -122,14 +133,22 @@ public class FrmListaContenido extends JFrame {
 			if(x > 400){
 				x = 10;
 				y = y+210;
+				l = l+210;
 			}
 		}
+		panel.setPreferredSize(new Dimension(567, l));
 		
 	}
 	
 	void openInfoContenido(int id){
 		FrmInfoContenido ic = new FrmInfoContenido(id);
 		ic.setVisible(true);
+		dispose();
+	}
+	
+	void salir(){
+		FrmLogin l = new FrmLogin();
+		l.setVisible(true);
 		dispose();
 	}
 }

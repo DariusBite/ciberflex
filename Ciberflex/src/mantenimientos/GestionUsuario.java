@@ -203,5 +203,55 @@ public class GestionUsuario implements UsuarioInterface{
 		}
 		return rs;
 	}
+	
+	//Metodo para listar (chirinos)
+		@Override
+		public ArrayList<Usuario> listado() {
+			ArrayList<Usuario> lista = new ArrayList<Usuario>();
+			ResultSet rs = null;
+			Connection con = null;
+			PreparedStatement pst = null;
+			
+			try{
+				con = MySQLConexion.getConexion();
+				String sql = "SELECT * FROM USUARIOS";
+				pst = con.prepareStatement(sql);
+				//Parametros para la sentencia
+				
+				
+				rs = pst.executeQuery();
+				//Acciones adicionales en caso de conusltas
+				while(rs.next()){
+					Usuario u = new Usuario();
+					u.setId(rs.getInt(1));
+					u.setEmail(rs.getString(2));
+					u.setPassword(rs.getString(3));
+					u.setNombre(rs.getString(4));
+					u.setApellido(rs.getString(5));
+					u.setFechanacimiento(rs.getString(6));
+					u.setDireccion(rs.getString(7));
+					u.setCiudad(rs.getString(8));
+					u.setProvincia(rs.getString(9));
+					u.setTelefono(rs.getString(10));
+					u.setTipo(rs.getString(11));
+					u.setIdPlan(rs.getInt(12));
+					lista.add(u);
+				}
+			}catch(Exception e){
+				System.out.println("Error al cargar el driver " + e.getMessage());
+			}finally {
+				try{
+					if(pst != null){
+						pst.close();
+					}
+					if(con != null){
+						con.close();
+					}
+				}catch(SQLException e){
+					System.out.println("Error al cerrar");
+				}
+			}	
+			return lista;
+		}
 
 }

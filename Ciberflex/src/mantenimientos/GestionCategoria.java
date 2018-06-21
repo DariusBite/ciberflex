@@ -147,5 +147,38 @@ public class GestionCategoria implements CategoriaInterface{
 		//--
 		return lista;
 	}
+	
+	public int actualizar(Categoria c) {
+		int rs=0;
+		Connection con=null;
+		PreparedStatement pst=null;
+		
+		try{
+			con=MySQLConexion.getConexion();
+			
+			//insert into tb_usuarios values (null,'Tito', 'Siber','U001', '10001', curdate(),2,1);
+			String sql="update CATEGORIAS set TITULO_CATEGORIA=?, DESCRIPCION_CATEGORIA=? where ID_CATEGORIA=?";
+			
+			pst=con.prepareStatement(sql);
+			//parametros
+			pst.setString(1,c.getTitulo_categoria());
+			pst.setString(2,c.getDescripcion_categoria());
+			pst.setInt(3,c.getId_categoria());
+					
+			rs=pst.executeUpdate();
+		}catch (Exception e){
+			System.out.println("Error de sentencia" + e.getMessage());
+		}finally {
+			try{
+				if(pst!=null) pst.close();
+				if(con!=null) con.close();
+			}catch (SQLException e){
+				System.out.println("Error al cerrar");
+			}
+		}
+		return rs;
+	
+	}
+
 
 }

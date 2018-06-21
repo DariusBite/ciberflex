@@ -13,5 +13,7 @@ public interface CategoriaInterface {
 	public Categoria obtenerCategoriaXTitulo(String titulo);
 	
 	public ArrayList<Categoria> listarCategoriasenContenido(int id);
+	
+	public int actualizar (Categoria c);
 
 }

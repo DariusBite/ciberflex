@@ -1,6 +1,5 @@
 package vistas;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -17,7 +16,6 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.Color;
-import javax.swing.UIManager;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -27,6 +25,10 @@ import javax.swing.JPasswordField;
 
 public class FrmLogin extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtEmail;
 	private JPasswordField txtPassword;
@@ -92,12 +94,6 @@ public class FrmLogin extends JFrame {
 		lblRegistrar.setBounds(90, 139, 86, 14);
 		contentPane.add(lblRegistrar);
 		
-		JLabel lblOlvidarContrasea = new JLabel("Olvidar Contrase\u00F1a");
-		lblOlvidarContrasea.setForeground(Color.BLUE);
-		lblOlvidarContrasea.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblOlvidarContrasea.setBounds(28, 153, 148, 14);
-		contentPane.add(lblOlvidarContrasea);
-		
 		JLabel lblIniciarSession = new JLabel("Iniciar Session");
 		lblIniciarSession.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblIniciarSession.setHorizontalAlignment(SwingConstants.CENTER);
@@ -148,6 +144,7 @@ public class FrmLogin extends JFrame {
 		return txtEmail.getText();
 	}
 	
+	@SuppressWarnings("deprecation")
 	String leerPass(){
 		return txtPassword.getText();
 	}

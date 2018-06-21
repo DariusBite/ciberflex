@@ -1,12 +1,9 @@
 package vistas;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.io.File;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Group;
@@ -14,9 +11,12 @@ import javafx.scene.Scene;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
-import javafx.stage.Stage;
 
-public class PruebaVideo extends JFrame {
+public class FrmReproductor extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static String miniUrl = "videos/Rick.mp4";
 	private String workingDir;
 	private File f;
@@ -29,7 +29,7 @@ public class PruebaVideo extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PruebaVideo frame = new PruebaVideo(miniUrl);
+					FrmReproductor frame = new FrmReproductor(miniUrl);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -41,7 +41,7 @@ public class PruebaVideo extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public PruebaVideo(String url) {
+	public FrmReproductor(String url) {
 		if(url != null){
 			miniUrl = url;
 		}

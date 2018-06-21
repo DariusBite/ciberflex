@@ -9,4 +9,5 @@ public interface ContenidoInterface {
 	public int ultimoIdContenido();
 	public ArrayList<Contenido> listarContenido();
 	public Contenido obtenerContenido(int id);
+	public ArrayList<Contenido> buscarContenido(String texto);
 }

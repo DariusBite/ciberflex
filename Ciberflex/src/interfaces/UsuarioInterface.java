@@ -15,5 +15,7 @@ public interface UsuarioInterface {
 	public Usuario obtenerUsuario(int id);
 	
 	public int actualizarUsuario(Usuario u);
+	
+	public ArrayList<Usuario> listado();
 
 }

@@ -1,13 +1,11 @@
 package vistas;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 
+import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -17,6 +15,10 @@ import java.awt.Font;
 
 public class FrmPanelAdministrador extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
 	/**
@@ -59,10 +61,20 @@ public class FrmPanelAdministrador extends JFrame {
 		contentPane.add(lblContenido);
 		
 		JButton btnAadirContenido = new JButton("A\u00F1adir contenido");
+		btnAadirContenido.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				openAddContent();
+			}
+		});
 		btnAadirContenido.setBounds(10, 63, 157, 23);
 		contentPane.add(btnAadirContenido);
 		
-		JButton btnEditarContenido = new JButton("Editar contenido");
+		JButton btnEditarContenido = new JButton("Editar contenidos");
+		btnEditarContenido.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				openEditarContenido();
+			}
+		});
 		btnEditarContenido.setBounds(10, 97, 157, 23);
 		contentPane.add(btnEditarContenido);
 		
@@ -78,10 +90,15 @@ public class FrmPanelAdministrador extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		JButton btnAnadirCategoria = new JButton("A\u00F1adir categoria");
+		btnAnadirCategoria.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openAddCategoria();
+			}
+		});
 		btnAnadirCategoria.setBounds(188, 63, 157, 23);
 		contentPane.add(btnAnadirCategoria);
 		
-		JButton btnEditarCategoria = new JButton("Editar categoria");
+		JButton btnEditarCategoria = new JButton("Editar categorias");
 		btnEditarCategoria.setBounds(188, 97, 157, 23);
 		contentPane.add(btnEditarCategoria);
 		
@@ -97,6 +114,11 @@ public class FrmPanelAdministrador extends JFrame {
 		contentPane.add(label);
 		
 		JButton btnAadirPlanes = new JButton("A\u00F1adir planes");
+		btnAadirPlanes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openAddPlanes();
+			}
+		});
 		btnAadirPlanes.setBounds(367, 63, 157, 23);
 		contentPane.add(btnAadirPlanes);
 		
@@ -119,7 +141,12 @@ public class FrmPanelAdministrador extends JFrame {
 		btnAadirUsuario.setBounds(546, 63, 157, 23);
 		contentPane.add(btnAadirUsuario);
 		
-		JButton btnEditarUsuario = new JButton("Editar Usuario");
+		JButton btnEditarUsuario = new JButton("Editar Usuarios");
+		btnEditarUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openEditarUsuario();
+			}
+		});
 		btnEditarUsuario.setBounds(546, 97, 157, 23);
 		contentPane.add(btnEditarUsuario);
 		
@@ -148,5 +175,35 @@ public class FrmPanelAdministrador extends JFrame {
 		JButton btnCategoriasMasVistas = new JButton("Categorias mas vistas");
 		btnCategoriasMasVistas.setBounds(10, 266, 157, 23);
 		contentPane.add(btnCategoriasMasVistas);
+	}
+	
+	void openAddContent(){
+		FrmAddContenido v = new FrmAddContenido();
+		v.setVisible(true);
+		dispose();
+	}
+	
+	void openAddCategoria(){
+		FrmAddCategorias c = new FrmAddCategorias();
+		c.setVisible(true);
+		dispose();
+	}
+	
+	void openAddPlanes(){
+		FrmAddPlans p = new FrmAddPlans();
+		p.setVisible(true);
+		dispose();
+	}
+	
+	void openEditarContenido(){
+		FrmEditarContenido c = new FrmEditarContenido();
+		c.setVisible(true);
+		dispose();
+	}
+	
+	void openEditarUsuario(){
+		FrmEditarUsuario u = new FrmEditarUsuario();
+		u.setVisible(true);
+		dispose();
 	}
 }
