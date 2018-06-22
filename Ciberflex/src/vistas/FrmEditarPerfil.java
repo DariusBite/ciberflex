@@ -203,11 +203,8 @@ public class FrmEditarPerfil extends JFrame {
 		try {
 			GestionUsuario gu = new GestionUsuario();
 			u = gu.obtenerUsuario(userId);
-			System.out.println("provincia: "+u.getProvincia());
 			String fecha = u.getFechanacimiento();
-			SimpleDateFormat smf = new SimpleDateFormat("yyyy-MM-dd");
-			Date date = smf.parse(fecha);
-			txtFecha.setDate(date);
+			System.out.println("email: "+u.getEmail());
 			txtEmail.setText(u.getEmail());
 			txtPass.setText(u.getPassword());
 			txtPass2.setText(u.getPassword());
@@ -227,6 +224,9 @@ public class FrmEditarPerfil extends JFrame {
 				cboCiudad.setSelectedItem(u.getCiudad());
 			}
 			cboPlan.setSelectedIndex(u.getIdPlan());
+			SimpleDateFormat smf = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = smf.parse(fecha);
+			txtFecha.setDate(date);
 			
 			
 		} catch (Exception e) {
