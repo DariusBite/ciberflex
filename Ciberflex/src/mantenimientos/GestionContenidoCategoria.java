@@ -26,7 +26,7 @@ public class GestionContenidoCategoria implements ContenidoCategoriaInterface{
 			rs = pst.executeUpdate();
 			
 		} catch(Exception e){
-			System.out.println("Error en la Gestión Contenido Categoria" + e.getMessage());;
+			System.out.println("Error en la Gestión Contenido Categoria " + e.getMessage());;
 		}finally{
 			try{
 				if(pst!=null) pst.close();

@@ -30,7 +30,7 @@ public class GestionContenido implements ContenidoInterface{
 			rs = pst.executeUpdate();
 			
 		} catch(Exception e){
-			System.out.println("Error en la Gestión Usuario" + e.getMessage());;
+			System.out.println("Error en la Gestión Contenido registrarContenido " + e.getMessage());;
 		}finally{
 			try{
 				if(pst!=null) pst.close();
@@ -98,7 +98,7 @@ public class GestionContenido implements ContenidoInterface{
 		   }
 			
 		} catch (Exception e) {
-			System.out.println("Error en la sentencia " + e.getMessage());
+			System.out.println("Error en la Gestión Contenido listarContenido" + e.getMessage());
 		} finally {
 		  try {
 		      if (pst != null) pst.close();
@@ -138,7 +138,7 @@ public class GestionContenido implements ContenidoInterface{
 		   }
 			
 		} catch (Exception e) {
-			System.out.println("Error en la sentencia " + e.getMessage());
+			System.out.println("Error en la Gestión Contenido obtenerContenido " + e.getMessage());
 		} finally {
 		  try {
 		      if (pst != null) pst.close();
@@ -179,7 +179,7 @@ public class GestionContenido implements ContenidoInterface{
 		   }
 			
 		} catch (Exception e) {
-			System.out.println("Error en la sentencia " + e.getMessage());
+			System.out.println("Error en la Gestión Contenido buscarContenido " + e.getMessage());
 		} finally {
 		  try {
 		      if (pst != null) pst.close();

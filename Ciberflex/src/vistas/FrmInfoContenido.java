@@ -10,9 +10,14 @@ import javax.swing.border.EmptyBorder;
 
 import mantenimientos.GestionCategoria;
 import mantenimientos.GestionContenido;
+import mantenimientos.GestionUsuariosContenidos;
+import mantenimientos.GestionUsuariosVideos;
 import mantenimientos.GestionVideo;
 import modelado.Categoria;
 import modelado.Contenido;
+import modelado.UserSession;
+import modelado.UsuariosContenidos;
+import modelado.UsuariosVideos;
 import modelado.Video;
 
 import javax.swing.JLabel;
@@ -28,6 +33,7 @@ import java.util.ArrayList;
 import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
 import java.awt.Color;
+import javax.swing.JComboBox;
 
 public class FrmInfoContenido extends JFrame {
 
@@ -41,6 +47,7 @@ public class FrmInfoContenido extends JFrame {
 	private JLabel lblDescripcion;
 	private JScrollPane scrollPane;
 	private JLabel lblCatgorias;
+	private JComboBox cboPuntuacion;
 
 	/**
 	 * Launch the application.
@@ -75,14 +82,14 @@ public class FrmInfoContenido extends JFrame {
 		lblTitulo = new JLabel("Titulo");
 		lblTitulo.setForeground(Color.WHITE);
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblTitulo.setBounds(10, 11, 464, 34);
+		lblTitulo.setBounds(10, 11, 386, 34);
 		contentPane.add(lblTitulo);
 		
 		lblDescripcion = new JLabel("Descripcion");
 		lblDescripcion.setForeground(Color.WHITE);
 		lblDescripcion.setHorizontalAlignment(SwingConstants.LEFT);
 		lblDescripcion.setVerticalAlignment(SwingConstants.TOP);
-		lblDescripcion.setBounds(10, 46, 464, 58);
+		lblDescripcion.setBounds(10, 46, 386, 58);
 		contentPane.add(lblDescripcion);
 		
 		scrollPane = new JScrollPane();
@@ -99,7 +106,29 @@ public class FrmInfoContenido extends JFrame {
 		lblCatgorias.setBounds(10, 115, 424, 14);
 		contentPane.add(lblCatgorias);
 		
+		cboPuntuacion = new JComboBox();
+		cboPuntuacion.setBounds(398, 25, 36, 20);
+		contentPane.add(cboPuntuacion);
+		cboPuntuacion.addItem('1');
+		cboPuntuacion.addItem('2');
+		cboPuntuacion.addItem('3');
+		cboPuntuacion.addItem('4');
+		cboPuntuacion.addItem('5');
+		cboPuntuacion.setSelectedItem('5');
+		cboPuntuacion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				puntua();
+			}
+		});
+		
+		JLabel lblPuntua = new JLabel("Puntua");
+		lblPuntua.setForeground(Color.WHITE);
+		lblPuntua.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblPuntua.setBounds(388, 11, 46, 14);
+		contentPane.add(lblPuntua);
+		
 		loadData();
+		guardar();
 	}
 	
 	void loadData(){
@@ -132,6 +161,7 @@ public class FrmInfoContenido extends JFrame {
 			btnContenido.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					openVideo(v.getUrl_video());
+					guardarVideo(v.getId_video());
 				}
 			});
 			btnContenido.setBounds(x, 10, 150, 100);
@@ -144,5 +174,49 @@ public class FrmInfoContenido extends JFrame {
 	void openVideo(String url){
 		FrmReproductor pv = new FrmReproductor(url);
 		pv.setVisible(true);
+	}
+	
+	void puntua(){
+		int puntuacion = leerPuntuacion();
+		GestionUsuariosContenidos guc = new GestionUsuariosContenidos();
+		UsuariosContenidos uc = new UsuariosContenidos();
+		uc.setId_contenido(id);
+		uc.setId_usuario(UserSession.getId());
+		uc.setPuntuacion(puntuacion);
+		guc.registrarPuntuacion(uc);		
+	}
+	
+	void guardar(){
+		UsuariosContenidos uc = null;
+		GestionUsuariosContenidos guc = new GestionUsuariosContenidos();
+		uc = guc.obtener(UserSession.getId(), id);
+		if(uc == null){
+			uc = new UsuariosContenidos();
+			uc.setId_contenido(id);
+			uc.setId_usuario(UserSession.getId());
+			guc.registrar(uc);
+		}
+	}
+	
+	int leerPuntuacion(){
+		return cboPuntuacion.getSelectedIndex()+1;
+	}
+	
+	void guardarVideo(int id_v){
+		GestionUsuariosVideos guv = new GestionUsuariosVideos();
+		UsuariosVideos uv = null;
+		uv = guv.obtener(id_v, UserSession.getId());
+		if(uv == null){
+			uv = new UsuariosVideos();
+			uv.setId_usuario(UserSession.getId());
+			uv.setId_video(id_v);
+			uv.setVecesvisto(1);
+		}
+		else{
+			int newCant = uv.getVecesvisto() + 1;
+			uv.setVecesvisto(newCant);
+			guv.registrarVeces(uv);
+		}
+		
 	}
 }

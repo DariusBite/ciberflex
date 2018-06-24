@@ -33,7 +33,7 @@ public class GestionVideo implements VideoInterface{
 			rs = pst.executeUpdate();
 			
 		} catch(Exception e){
-			System.out.println("Error en la Gestión Contenido Categoria" + e.getMessage());;
+			System.out.println("Error en la Gestión Contenido videos " + e.getMessage());;
 		}finally{
 			try{
 				if(pst!=null) pst.close();

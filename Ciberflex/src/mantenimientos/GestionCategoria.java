@@ -28,7 +28,7 @@ public class GestionCategoria implements CategoriaInterface{
 			rs = pst.executeUpdate();
 			
 		} catch(Exception e){
-			System.out.println("Error en la Gestión Usuario" + e.getMessage());;
+			System.out.println("Error en la Gestión Categoria registarCategoria " + e.getMessage());;
 		}finally{
 			try{
 				if(pst!=null) pst.close();
@@ -64,7 +64,7 @@ public class GestionCategoria implements CategoriaInterface{
 			   lista.add(c);
 		   }
 		} catch (Exception e) {
-		   System.out.println("Error en la sentencia " + e.getMessage());
+		   System.out.println("Error en la Gestión Categoria listarCategoria " + e.getMessage());
 		} finally {
 		  try {
 		      if (pst != null) pst.close();
@@ -98,7 +98,7 @@ public class GestionCategoria implements CategoriaInterface{
 			   c.setDescripcion_categoria(rs.getString(3));
 		   }
 		} catch (Exception e) {
-		   System.out.println("Error en la sentencia " + e.getMessage());
+		   System.out.println("Error en la Gestión Categoria obtenerCategoriaXTitulo " + e.getMessage());
 		} finally {
 		  try {
 		      if (pst != null) pst.close();
@@ -134,7 +134,7 @@ public class GestionCategoria implements CategoriaInterface{
 			   lista.add(c);
 		   }
 		} catch (Exception e) {
-		   System.out.println("Error en la sentencia " + e.getMessage());
+		   System.out.println("Error en la Gestión Categoria listarCategoriasenContenido " + e.getMessage());
 		} finally {
 		  try {
 		      if (pst != null) pst.close();
@@ -167,7 +167,7 @@ public class GestionCategoria implements CategoriaInterface{
 					
 			rs=pst.executeUpdate();
 		}catch (Exception e){
-			System.out.println("Error de sentencia" + e.getMessage());
+			System.out.println("Error de sentencia " + e.getMessage());
 		}finally {
 			try{
 				if(pst!=null) pst.close();
