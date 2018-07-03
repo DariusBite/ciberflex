@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.ImageIcon;
+import java.awt.Color;
 
 public class FrmListaContenido extends JFrame {
 
@@ -58,19 +59,27 @@ public class FrmListaContenido extends JFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 601, 463);
 		contentPane = new JPanel();
+		contentPane.setForeground(Color.WHITE);
+		contentPane.setBackground(Color.BLACK);
 		contentPane.setToolTipText("Buscar");
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBorderPainted(false);
+		menuBar.setForeground(Color.WHITE);
+		menuBar.setBackground(Color.BLACK);
 		menuBar.setBounds(0, 0, 120, 21);
 		contentPane.add(menuBar);
 		
 		JMenu mnUsuario = new JMenu("Usuario");
+		mnUsuario.setForeground(Color.WHITE);
 		menuBar.add(mnUsuario);
 		
 		JMenuItem mntmPerfil = new JMenuItem("Perfil");
+		mntmPerfil.setForeground(Color.WHITE);
+		mntmPerfil.setBackground(Color.BLACK);
 		mntmPerfil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				openEditarPefil();
@@ -79,6 +88,8 @@ public class FrmListaContenido extends JFrame {
 		mnUsuario.add(mntmPerfil);
 		
 		mntmSalir = new JMenuItem("Salir");
+		mntmSalir.setForeground(Color.WHITE);
+		mntmSalir.setBackground(Color.BLACK);
 		mntmSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				salir();
@@ -87,16 +98,28 @@ public class FrmListaContenido extends JFrame {
 		mnUsuario.add(mntmSalir);
 		
 		JMenu mnContenido = new JMenu("Contenido");
+		mnContenido.setBackground(Color.BLACK);
+		mnContenido.setForeground(Color.WHITE);
 		menuBar.add(mnContenido);
 		
 		JMenuItem mntmBuscarTitulos = new JMenuItem("Buscar titulos");
+		mntmBuscarTitulos.setForeground(Color.WHITE);
+		mntmBuscarTitulos.setBackground(Color.BLACK);
+		mntmBuscarTitulos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				abrirbuscar();
+			}
+		});
 		mnContenido.add(mntmBuscarTitulos);
 		
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 19, 585, 405);
+		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		contentPane.add(scrollPane);
 		
 		panel = new JPanel();
+		panel.setForeground(Color.WHITE);
+		panel.setBackground(Color.BLACK);
 		scrollPane.setViewportView(panel);
 		panel.setLayout(null);
 		
@@ -110,7 +133,7 @@ public class FrmListaContenido extends JFrame {
 	
 	void loadContendio(){
 		GestionContenido gc = new GestionContenido();
-		ArrayList<Contenido> lista = gc.listarContenido();
+		ArrayList<Contenido> lista = gc.listarContenidoActivo();
 		int x= 10, y= 10, l=210;
 		
 		for(Contenido c : lista){
@@ -149,6 +172,12 @@ public class FrmListaContenido extends JFrame {
 	void salir(){
 		FrmLogin l = new FrmLogin();
 		l.setVisible(true);
+		dispose();
+	}
+	
+	void abrirbuscar(){
+		FrmBuscarContenido bc = new FrmBuscarContenido();
+		bc.setVisible(true);
 		dispose();
 	}
 }

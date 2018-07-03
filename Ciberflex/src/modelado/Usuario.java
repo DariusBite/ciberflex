@@ -1,7 +1,7 @@
 package modelado;
 
 public class Usuario {
-    private int id, idPlan;
+    private int id, idPlan, estado;
 	private String email, password, nombre, apellido, fechanacimiento, direccion, ciudad, provincia, telefono, tipo;
 	public int getId() {
 		return id;
@@ -74,6 +74,12 @@ public class Usuario {
 	}
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
+	}
+	public int getEstado() {
+		return estado;
+	}
+	public void setEstado(int estado) {
+		this.estado = estado;
 	}
 	
 	

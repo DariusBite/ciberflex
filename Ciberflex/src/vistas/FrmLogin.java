@@ -54,22 +54,26 @@ public class FrmLogin extends JFrame {
 	 */
 	public FrmLogin() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 202, 217);
+		setBounds(100, 100, 300, 217);
 		contentPane = new JPanel();
+		contentPane.setForeground(Color.WHITE);
+		contentPane.setBackground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JLabel lblEmail = new JLabel("Email");
+		lblEmail.setForeground(Color.WHITE);
 		lblEmail.setBounds(10, 52, 46, 14);
 		contentPane.add(lblEmail);
 		
 		txtEmail = new JTextField();
-		txtEmail.setBounds(81, 49, 86, 20);
+		txtEmail.setBounds(81, 49, 193, 20);
 		contentPane.add(txtEmail);
 		txtEmail.setColumns(10);
 		
 		JLabel lblPassword = new JLabel("Password");
+		lblPassword.setForeground(Color.WHITE);
 		lblPassword.setBounds(10, 77, 70, 14);
 		contentPane.add(lblPassword);
 		
@@ -79,7 +83,7 @@ public class FrmLogin extends JFrame {
 				validarAcceso();
 			}
 		});
-		btnEntrar.setBounds(46, 105, 89, 23);
+		btnEntrar.setBounds(105, 105, 90, 23);
 		contentPane.add(btnEntrar);
 		
 		JLabel lblRegistrar = new JLabel("Registrate");
@@ -91,17 +95,18 @@ public class FrmLogin extends JFrame {
 		});
 		lblRegistrar.setForeground(Color.BLUE);
 		lblRegistrar.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblRegistrar.setBounds(90, 139, 86, 14);
+		lblRegistrar.setBounds(188, 140, 86, 14);
 		contentPane.add(lblRegistrar);
 		
 		JLabel lblIniciarSession = new JLabel("Iniciar Session");
+		lblIniciarSession.setForeground(Color.WHITE);
 		lblIniciarSession.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblIniciarSession.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIniciarSession.setBounds(10, 11, 166, 14);
+		lblIniciarSession.setBounds(10, 11, 264, 14);
 		contentPane.add(lblIniciarSession);
 		
 		txtPassword = new JPasswordField();
-		txtPassword.setBounds(81, 74, 86, 20);
+		txtPassword.setBounds(81, 74, 193, 20);
 		contentPane.add(txtPassword);
 	}
 	

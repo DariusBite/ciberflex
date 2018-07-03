@@ -11,5 +11,7 @@ public interface PlanInterface {
 	public int registraPlanes(Plan p);
 	
 	public int actualizar (Plan p);
+	
+	public Plan obtener(int id);
 
 }

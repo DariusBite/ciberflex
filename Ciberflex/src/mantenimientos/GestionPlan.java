@@ -33,6 +33,7 @@ public class GestionPlan implements PlanInterface{
 			   p.setNombre_plan(rs.getString(2));
 			   p.setPrecio_plan(rs.getDouble(3));
 			   p.setDescripcion_plan(rs.getString(4));
+			   p.setEstado(rs.getInt(5));
 			   lista.add(p);
 		   }
 		} catch (Exception e) {
@@ -88,14 +89,15 @@ public class GestionPlan implements PlanInterface{
 			con=MySQLConexion.getConexion();
 			
 			//insert into tb_usuarios values (null,'Tito', 'Siber','U001', '10001', curdate(),2,1);
-			String sql="update PLANES set NOMBRE_PLAN=?, PRECIO_PLAN=?,DESCRIPCION_PLAN=? where ID_PLAN=?";
+			String sql="update PLANES set NOMBRE_PLAN=?, PRECIO_PLAN=?,DESCRIPCION_PLAN=?, ESTADO = ? where ID_PLAN=?";
 			
 			pst=con.prepareStatement(sql);
 			//parametros
 			pst.setString(1,p.getNombre_plan());
 			pst.setDouble(2,p.getPrecio_plan());
 			pst.setString(3,p.getDescripcion_plan());
-			pst.setInt(4,p.getId_plan());
+			pst.setInt(4,p.getEstado());
+			pst.setInt(5,p.getId_plan());
 					
 			rs=pst.executeUpdate();
 		}catch (Exception e){
@@ -109,6 +111,42 @@ public class GestionPlan implements PlanInterface{
 			}
 		}
 		return rs;
+	}
+
+	@Override
+	public Plan obtener(int id) {
+		Plan p = null;
+		ResultSet rs = null; // tipo de resultado
+		Connection con = null;
+		PreparedStatement pst = null;
+		try {
+			   con = MySQLConexion.getConexion(); 
+			   String sql = "select * from PLANES where ID_PLAN = ?"; // sentencia sql
+
+			   pst = con.prepareStatement(sql);
+			   // parámetros según la sentencia		   
+			   pst.setInt(1, id);		 
+			   rs = pst.executeQuery(); // tipo de ejecución
+			   while(rs.next()){
+				   p = new Plan();
+				   p.setId_plan(rs.getInt(1));
+				   p.setNombre_plan(rs.getString(2));
+				   p.setPrecio_plan(rs.getDouble(3));
+				   p.setDescripcion_plan(rs.getString(4));
+				   p.setEstado(rs.getInt(1));
+			   }
+			} catch (Exception e) {
+			   System.out.println("Error en la sentencia " + e.getMessage());
+			} finally {
+			  try {
+			      if (pst != null) pst.close();
+			      if (con != null) con.close();
+			   } catch (SQLException e) {
+			      System.out.println("Error al cerrar ");
+			   }
+			}
+		
+		return p;
 	}
 
 }

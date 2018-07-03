@@ -1,8 +1,14 @@
 package modelado;
 
 public class Contenido {
-	int id_contenido;
-    String titulo_contenido, descripcion_contenido, tipo_contenido, url_image_contenido;
+	int id_contenido, estado;
+    public int getEstado() {
+		return estado;
+	}
+	public void setEstado(int estado) {
+		this.estado = estado;
+	}
+	String titulo_contenido, descripcion_contenido, tipo_contenido, url_image_contenido;
 	public int getId_contenido() {
 		return id_contenido;
 	}

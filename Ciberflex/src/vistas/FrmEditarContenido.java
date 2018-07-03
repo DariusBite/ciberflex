@@ -424,7 +424,7 @@ public class FrmEditarContenido extends JFrame implements ActionListener {
 	}
 
 	private void mostrarConsultarContenido() {
-		ListarContenidos li = new ListarContenidos();
+		FrmListarContenidos li = new FrmListarContenidos();
 		li.setVisible(true);
 	}
 }

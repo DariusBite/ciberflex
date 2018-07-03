@@ -7,22 +7,29 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import mantenimientos.GestionContenido;
+import modelado.Contenido;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 
-public class BuscarContenido extends JFrame {
+public class FrmBuscarContenido extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtTitulo;
 	private JTable table;
 	DefaultTableModel modelo = new DefaultTableModel();
+	ArrayList<Contenido> lista;
 
 	/**
 	 * Launch the application.
@@ -31,7 +38,7 @@ public class BuscarContenido extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					BuscarContenido frame = new BuscarContenido();
+					FrmBuscarContenido frame = new FrmBuscarContenido();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -43,8 +50,8 @@ public class BuscarContenido extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public BuscarContenido() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public FrmBuscarContenido() {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 800, 422);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -68,12 +75,18 @@ public class BuscarContenido extends JFrame {
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				buscar();
 			}
 		});
 		btnBuscar.setBounds(586, 40, 89, 23);
 		contentPane.add(btnBuscar);
 		
 		JButton btnSalir = new JButton("Salir");
+		btnSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				salir();
+			}
+		});
 		btnSalir.setBounds(685, 40, 89, 23);
 		contentPane.add(btnSalir);
 		
@@ -88,7 +101,56 @@ public class BuscarContenido extends JFrame {
 		modelo.addColumn("Descripcion");
 		
 		JButton btnVer = new JButton("Ver");
+		btnVer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ver();
+			}
+		});
 		btnVer.setBounds(349, 349, 89, 23);
 		contentPane.add(btnVer);
+	}
+	
+	void buscar(){
+		String titulo;
+		titulo = leerTitulo();
+		if(titulo.matches(".{1,80}")){
+			GestionContenido gc = new GestionContenido();
+			lista = gc.buscarContenido(titulo);
+			if(!lista.isEmpty()){
+				int rowCount = modelo.getRowCount();
+				//Remove rows one by one from the end of the table
+				for (int i = rowCount - 1; i >= 0; i--) {
+					modelo.removeRow(i);
+				}
+				for(Contenido c:lista){
+					Object[] fila = {c.getTitulo_contenido(), c.getDescripcion_contenido()};
+					modelo.addRow(fila);
+				}
+			}
+			else mensaje("No se encontro ningun resultado");
+		}
+		else mensaje("Ingresa un titulo valido");
+	}
+	
+	void ver(){
+		int i = table.getSelectedRow();
+		int id = lista.get(i).getId_contenido();
+		FrmInfoContenido ic = new FrmInfoContenido(id);
+		ic.setVisible(true);
+		dispose();
+	}
+	
+	void salir(){
+		FrmListaContenido flc = new FrmListaContenido();
+		flc.setVisible(true);
+		dispose();
+	}
+	
+	String leerTitulo(){
+		return txtTitulo.getText();
+	}
+	void mensaje(String mensaje){
+		JOptionPane.showMessageDialog(null, mensaje);
+
 	}
 }

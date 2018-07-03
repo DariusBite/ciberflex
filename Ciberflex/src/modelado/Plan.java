@@ -1,7 +1,7 @@
 package modelado;
 
 public class Plan {
-	private int id_plan;
+	private int id_plan, estado;
 	private double precio_plan; 
 	private String nombre_plan, descripcion_plan;
 	
@@ -28,5 +28,11 @@ public class Plan {
 	}
 	public void setDescripcion_plan(String descripcion_plan) {
 		this.descripcion_plan = descripcion_plan;
+	}
+	public int getEstado() {
+		return estado;
+	}
+	public void setEstado(int estado) {
+		this.estado = estado;
 	}
 }

@@ -15,5 +15,7 @@ public interface CategoriaInterface {
 	public ArrayList<Categoria> listarCategoriasenContenido(int id);
 	
 	public int actualizar (Categoria c);
+	
+	public Categoria obtener(int id);
 
 }

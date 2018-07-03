@@ -1,8 +1,11 @@
 package vistas;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import javafx.embed.swing.JFXPanel;
@@ -21,6 +24,7 @@ public class FrmReproductor extends JFrame {
 	private String workingDir;
 	private File f;
 	private JFXPanel panel;
+	private int id_c;
 
 	/**
 	 * Launch the application.
@@ -29,7 +33,7 @@ public class FrmReproductor extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrmReproductor frame = new FrmReproductor(miniUrl);
+					FrmReproductor frame = new FrmReproductor(miniUrl, 1);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -41,10 +45,9 @@ public class FrmReproductor extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FrmReproductor(String url) {
-		if(url != null){
-			miniUrl = url;
-		}
+	public FrmReproductor(String url, int id) {
+		if(url != null)	miniUrl = url;
+		if(id !=0) id_c = id;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(10, 10, 1280, 600);
 		panel = new JFXPanel();
@@ -62,6 +65,21 @@ public class FrmReproductor extends JFrame {
         root.getChildren().add(mediaView);
         panel.setScene(scene);
         setContentPane(panel);
+        
+        JButton btnSalir = new JButton("Salir");
+        btnSalir.setBounds(1190, 10, 70, 23);
+        panel.add(btnSalir);
+        btnSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				salir();
+			}
+		});
+	}
+	
+	void salir(){
+		FrmInfoContenido ic = new FrmInfoContenido(id_c);
+		ic.setVisible(true);
+		dispose();
 	}
 
 }

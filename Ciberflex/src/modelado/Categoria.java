@@ -1,7 +1,7 @@
 package modelado;
 
 public class Categoria {
-	private int id_categoria;
+	private int id_categoria, estado;
 	private String titulo_categoria, descripcion_categoria;
 	public int getId_categoria() {
 		return id_categoria;
@@ -20,5 +20,11 @@ public class Categoria {
 	}
 	public void setDescripcion_categoria(String descripcion_categoria) {
 		this.descripcion_categoria = descripcion_categoria;
+	}
+	public int getEstado() {
+		return estado;
+	}
+	public void setEstado(int estado) {
+		this.estado = estado;
 	}
 }

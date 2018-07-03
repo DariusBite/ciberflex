@@ -10,6 +10,8 @@ public interface VideoInterface {
 	
 	public ArrayList<Video> listarVideosencontenido(int id);
 	
+	public ArrayList<Video> listarVideosencontenidoactivos(int id);
+	
 	public ArrayList<Video> listar();
 
 }

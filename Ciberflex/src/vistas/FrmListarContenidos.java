@@ -42,7 +42,7 @@ import java.awt.FlowLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JTable;
 
-public class ListarContenidos extends JFrame implements ActionListener {
+public class FrmListarContenidos extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTable table;
@@ -57,7 +57,7 @@ public class ListarContenidos extends JFrame implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ListarContenidos frame = new ListarContenidos();
+					FrmListarContenidos frame = new FrmListarContenidos();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -69,7 +69,7 @@ public class ListarContenidos extends JFrame implements ActionListener {
 	/**
 	 * Create the frame.
 	 */
-	public ListarContenidos() {
+	public FrmListarContenidos() {
 		setTitle("Listado De Contenidos");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 647, 463);

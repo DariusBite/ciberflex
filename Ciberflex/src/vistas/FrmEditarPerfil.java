@@ -1,6 +1,5 @@
 package vistas;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -33,6 +32,10 @@ import java.awt.event.ActionEvent;
 
 public class FrmEditarPerfil extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int userId = UserSession.getId();
 	private Usuario u = null;
 	private JPanel contentPane;
@@ -193,18 +196,12 @@ public class FrmEditarPerfil extends JFrame {
 		setPlans();
 		setUser();
 	}
-	void mostrarFecha(){
-		/*SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date d = new Date();
-		dateChooser.setDate(sdf.d);*/
-	}
 	
 	void setUser(){
 		try {
 			GestionUsuario gu = new GestionUsuario();
 			u = gu.obtenerUsuario(userId);
 			String fecha = u.getFechanacimiento();
-			System.out.println("email: "+u.getEmail());
 			txtEmail.setText(u.getEmail());
 			txtPass.setText(u.getPassword());
 			txtPass2.setText(u.getPassword());
@@ -235,7 +232,6 @@ public class FrmEditarPerfil extends JFrame {
 	}
 	
 	void changeCity(){
-		System.out.println(cboProvincia.getSelectedIndex());
 		cboCiudad.setModel(new DefaultComboBoxModel(Lugares.setCiudades(cboProvincia.getSelectedIndex())));
 	}
 	

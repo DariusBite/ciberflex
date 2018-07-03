@@ -235,6 +235,7 @@ public class GestionUsuario implements UsuarioInterface{
 					u.setTelefono(rs.getString(10));
 					u.setTipo(rs.getString(11));
 					u.setIdPlan(rs.getInt(12));
+					u.setEstado(rs.getInt(13));
 					lista.add(u);
 				}
 			}catch(Exception e){

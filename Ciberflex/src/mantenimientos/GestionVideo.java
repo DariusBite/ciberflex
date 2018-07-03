@@ -123,4 +123,47 @@ public class GestionVideo implements VideoInterface{
 		return lista;
 	}
 
+	@Override
+	public ArrayList<Video> listarVideosencontenidoactivos(int id) {
+		ArrayList<Video> lista = new ArrayList<Video>();
+		ResultSet rs = null; // tipo de resultado
+		Connection con = null;
+		PreparedStatement pst = null;
+		try {
+		   con = MySQLConexion.getConexion(); 
+		   String sql = "select * from VIDEOS where ID_CONTENIDO = ? and estado = 1"; // sentencia sql
+	
+		   pst = con.prepareStatement(sql);
+		   
+		   // parámetros según la sentencia	}	 	   
+		   pst.setInt(1, id);	  
+		   
+		   rs = pst.executeQuery(); // tipo de ejecución
+		   
+		   // Acciones adicionales en caso de consultas
+		   while (rs.next()){
+			   Video v = new Video();
+			   v.setId_video(rs.getInt(1));
+			   v.setId_contenido(id);
+			   v.setTitulo_video(rs.getString(3));
+			   v.setTemporada_video(rs.getInt(4));
+			   v.setDescripcion_video(rs.getString(5));
+			   v.setUrl_video(rs.getString(6));
+			   v.setUrl_imagen_video(rs.getString(7));
+			   lista.add(v);
+		   }
+		} catch (Exception e) {
+		   System.out.println("Error en la sentencia " + e.getMessage());
+		} finally {
+		  try {
+		      if (pst != null) pst.close();
+		      if (con != null) con.close();
+		   } catch (SQLException e) {
+		      System.out.println("Error al cerrar ");
+		   }
+		}
+	
+		return lista;
+	}
+
 }

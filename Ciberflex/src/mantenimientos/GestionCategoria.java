@@ -61,6 +61,7 @@ public class GestionCategoria implements CategoriaInterface{
 			   c.setId_categoria(rs.getInt(1));
 			   c.setTitulo_categoria(rs.getString(2));
 			   c.setDescripcion_categoria(rs.getString(3));
+			   c.setEstado(rs.getInt(4));
 			   lista.add(c);
 		   }
 		} catch (Exception e) {
@@ -157,13 +158,14 @@ public class GestionCategoria implements CategoriaInterface{
 			con=MySQLConexion.getConexion();
 			
 			//insert into tb_usuarios values (null,'Tito', 'Siber','U001', '10001', curdate(),2,1);
-			String sql="update CATEGORIAS set TITULO_CATEGORIA=?, DESCRIPCION_CATEGORIA=? where ID_CATEGORIA=?";
+			String sql="update CATEGORIAS set TITULO_CATEGORIA=?, DESCRIPCION_CATEGORIA=?, ESTADO=? where ID_CATEGORIA=?";
 			
 			pst=con.prepareStatement(sql);
 			//parametros
 			pst.setString(1,c.getTitulo_categoria());
 			pst.setString(2,c.getDescripcion_categoria());
-			pst.setInt(3,c.getId_categoria());
+			pst.setInt(3,c.getEstado());
+			pst.setInt(4,c.getId_categoria());
 					
 			rs=pst.executeUpdate();
 		}catch (Exception e){
@@ -178,6 +180,42 @@ public class GestionCategoria implements CategoriaInterface{
 		}
 		return rs;
 	
+	}
+
+	@Override
+	public Categoria obtener(int id) {
+		Categoria c = null;
+		ResultSet rs = null; // tipo de resultado
+		Connection con = null;
+		PreparedStatement pst = null;
+		try {
+		   con = MySQLConexion.getConexion(); 
+		   String sql = "select * from CATEGORIAS where ID_CATEGORIA = ?"; // sentencia sql
+
+		   pst = con.prepareStatement(sql);
+		   // parámetros según la sentencia		   
+		   pst.setInt(1, id);		 
+		   rs = pst.executeQuery(); // tipo de ejecución
+		   while(rs.next()){
+			   c = new Categoria();
+			   c.setId_categoria(id);
+			   c.setTitulo_categoria(rs.getString(2));
+			   c.setDescripcion_categoria(rs.getString(3));
+			   c.setEstado(rs.getInt(4));
+		   }
+		} catch (Exception e) {
+		   System.out.println("Error en la Gestión Categoria obtenerCategoriaXTitulo " + e.getMessage());
+		} finally {
+		  try {
+		      if (pst != null) pst.close();
+		      if (con != null) con.close();
+		   } catch (SQLException e) {
+		      System.out.println("Error al cerrar ");
+		   }
+		}
+		
+		//--
+		return c;
 	}
 
 

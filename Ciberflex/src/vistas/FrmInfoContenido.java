@@ -72,7 +72,7 @@ public class FrmInfoContenido extends JFrame {
 		setBackground(Color.BLACK);
 		this.id = id;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 460, 333);
+		setBounds(100, 100, 700, 333);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -89,11 +89,12 @@ public class FrmInfoContenido extends JFrame {
 		lblDescripcion.setForeground(Color.WHITE);
 		lblDescripcion.setHorizontalAlignment(SwingConstants.LEFT);
 		lblDescripcion.setVerticalAlignment(SwingConstants.TOP);
-		lblDescripcion.setBounds(10, 46, 386, 58);
+		lblDescripcion.setBounds(10, 46, 424, 58);
 		contentPane.add(lblDescripcion);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 148, 424, 137);
+		scrollPane.setBounds(482, 11, 192, 272);
+		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		contentPane.add(scrollPane);
 		
 		panel = new JPanel();
@@ -107,7 +108,7 @@ public class FrmInfoContenido extends JFrame {
 		contentPane.add(lblCatgorias);
 		
 		cboPuntuacion = new JComboBox();
-		cboPuntuacion.setBounds(398, 25, 36, 20);
+		cboPuntuacion.setBounds(10, 157, 36, 20);
 		contentPane.add(cboPuntuacion);
 		cboPuntuacion.addItem('1');
 		cboPuntuacion.addItem('2');
@@ -123,9 +124,18 @@ public class FrmInfoContenido extends JFrame {
 		
 		JLabel lblPuntua = new JLabel("Puntua");
 		lblPuntua.setForeground(Color.WHITE);
-		lblPuntua.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblPuntua.setBounds(388, 11, 46, 14);
+		lblPuntua.setHorizontalAlignment(SwingConstants.LEFT);
+		lblPuntua.setBounds(10, 140, 46, 14);
 		contentPane.add(lblPuntua);
+		
+		JButton button = new JButton("< Regresar");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				regresar();
+			}
+		});
+		button.setBounds(10, 260, 110, 23);
+		contentPane.add(button);
 		
 		loadData();
 		guardar();
@@ -138,10 +148,10 @@ public class FrmInfoContenido extends JFrame {
 		GestionVideo gv = new GestionVideo();
 		Contenido c = gc.obtenerContenido(id);
 		ArrayList<Categoria> listaCat = gcat.listarCategoriasenContenido(id);
-		ArrayList<Video> listaVideo = gv.listarVideosencontenido(id);
+		ArrayList<Video> listaVideo = gv.listarVideosencontenidoactivos(id);
 		lblTitulo.setText(c.getTitulo_contenido());
 		lblDescripcion.setText(c.getDescripcion_contenido());
-		int x = 10, w = 170;
+		int x = 10;
 		for (int i = 0; i < listaCat.size(); i++) {
 			if(i == 0)
 				categor = categor + listaCat.get(i).getTitulo_categoria();
@@ -160,20 +170,21 @@ public class FrmInfoContenido extends JFrame {
 			btnContenido.setIcon(imageIcon);
 			btnContenido.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					openVideo(v.getUrl_video());
+					openVideo(v.getUrl_video(), v.getId_contenido());
 					guardarVideo(v.getId_video());
 				}
 			});
-			btnContenido.setBounds(x, 10, 150, 100);
+			btnContenido.setBounds(10, x, 150, 100);
 			panel.add(btnContenido);
-			x = x + 160;
+			x = x + 110;
 		}
-		panel.setPreferredSize(new Dimension(w, 100));
+		panel.setPreferredSize(new Dimension(170, x));
 	}
 	
-	void openVideo(String url){
-		FrmReproductor pv = new FrmReproductor(url);
+	void openVideo(String url, int id){
+		FrmReproductor pv = new FrmReproductor(url, id);
 		pv.setVisible(true);
+		dispose();
 	}
 	
 	void puntua(){
@@ -218,5 +229,11 @@ public class FrmInfoContenido extends JFrame {
 			guv.registrarVeces(uv);
 		}
 		
+	}
+	
+	void regresar(){
+		FrmListaContenido lc = new FrmListaContenido();
+		lc.setVisible(true);
+		dispose();
 	}
 }

@@ -1,156 +1,237 @@
 package vistas;
 
-//import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 
-import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
 
 import mantenimientos.GestionUsuario;
 import modelado.Usuario;
 
 import javax.swing.JLabel;
-import java.awt.Color;
-import java.awt.Font;
-import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
-import javax.swing.JScrollPane;
-import javax.swing.JButton;
-import javax.swing.JTable;
+import java.awt.Font;
+import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
+import com.toedter.calendar.JDateChooser;
 
-public class FrmEditarUsuario extends JFrame implements ActionListener {
+public class FrmEditarUsuario extends JDialog implements ActionListener {
 
-
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-	private JLabel lblListaDeUsuarios;
-	private JScrollPane scrollPane;
-	private JButton btnEditar;
-	private JTable tblEditarUsuario;
+	private final JPanel contentPanel = new JPanel();
+	private JLabel lblEditarCampos;
+	public static JTextField txtEmailEditar;
+	public static JPasswordField pswPasswordEditar;
+	public static JTextField txtNombreEditar;
+	public static JTextField txtApellidoEditar;
+	public static JTextField txtDireccionEditar;
+	public static JTextField txtTelefonoEditar;
+	private JLabel lblEmail;
+	private JLabel lblPassword;
+	private JLabel lblNombre;
+	private JLabel lblApellido;
+	private JLabel lblFechaNac;
+	private JLabel lblCiudad;
+	private JLabel lblProvincia;
+	private JLabel lblTelefono;
+	private JLabel lblTipoUsuario;
+	private JComboBox cboProvinciaEditar;
+	private JComboBox cboCiudadEditar;
+	private JButton btnGuardar2;
+	private JComboBox cboTipo;
+	private JLabel lblEstado;
+	private JComboBox cboEstado;
+	private JLabel lblNatalicio;
+	
 
-
+	/**
+	 * Launch the application.
+	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FrmEditarUsuario frame = new FrmEditarUsuario();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		try {
+			FrmEditarUsuario dialog = new FrmEditarUsuario();
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	//Variable local para el modelo de la tabla
-	DefaultTableModel modelo = new DefaultTableModel();
-
+	/**
+	 * Create the dialog.
+	 */
 	public FrmEditarUsuario() {
-		setTitle("Lista de Usuarios");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1075, 423);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		setTitle("Editar Usuario");
+		setBounds(100, 100, 400, 416);
+		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(null);
 		
-		lblListaDeUsuarios = new JLabel("LISTA DE USUARIOS");
-		lblListaDeUsuarios.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblListaDeUsuarios.setForeground(Color.BLACK);
-		lblListaDeUsuarios.setBounds(413, 11, 168, 14);
-		contentPane.add(lblListaDeUsuarios);
+		lblEditarCampos = new JLabel("Editar Usuario");
+		lblEditarCampos.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEditarCampos.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblEditarCampos.setBounds(10, 11, 364, 14);
+		contentPanel.add(lblEditarCampos);
 		
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 102, 1039, 271);
-		contentPane.add(scrollPane);
-		//modelo de la tabla
-		tblEditarUsuario = new JTable();
-		tblEditarUsuario.setModel(modelo);
-		modelo.addColumn("ID");
-		modelo.addColumn("EMAIL");
-		modelo.addColumn("PASSWORD");
-		modelo.addColumn("NAME");
-		modelo.addColumn("LAST NAME");
-		modelo.addColumn("DATE OF BIRTH");
-		modelo.addColumn("DIRECCION");
-		modelo.addColumn("CIUDAD");
-		modelo.addColumn("PROVINCIA");
-		modelo.addColumn("TELEFONO");
-		modelo.addColumn("TIPO USUARIO");
-		modelo.addColumn("ID PLAN");
-		scrollPane.setViewportView(tblEditarUsuario);
+		txtEmailEditar = new JTextField();
+		txtEmailEditar.setEditable(false);
+		txtEmailEditar.setBounds(92, 36, 205, 20);
+		contentPanel.add(txtEmailEditar);
+		txtEmailEditar.setColumns(10);
 		
-		btnEditar = new JButton("Editar");
-		btnEditar.addActionListener(this);
-		btnEditar.setBounds(453, 68, 89, 23);
-		contentPane.add(btnEditar);
+		txtNombreEditar = new JTextField();
+		txtNombreEditar.setBounds(92, 86, 205, 20);
+		contentPanel.add(txtNombreEditar);
+		txtNombreEditar.setColumns(10);
 		
-		//lLAMAMOS AL METODO LISTAR USUARIOS
-		listarUsuarios();
+		txtApellidoEditar = new JTextField();
+		txtApellidoEditar.setBounds(92, 111, 205, 20);
+		contentPanel.add(txtApellidoEditar);
+		txtApellidoEditar.setColumns(10);
+		
+		txtDireccionEditar = new JTextField();
+		txtDireccionEditar.setBounds(92, 161, 205, 20);
+		contentPanel.add(txtDireccionEditar);
+		txtDireccionEditar.setColumns(10);
+		
+		txtTelefonoEditar = new JTextField();
+		txtTelefonoEditar.setBounds(92, 236, 205, 20);
+		contentPanel.add(txtTelefonoEditar);
+		txtTelefonoEditar.setColumns(10);
+		
+		lblEmail = new JLabel("EMAIL");
+		lblEmail.setBounds(10, 39, 46, 14);
+		contentPanel.add(lblEmail);
+		
+		lblPassword = new JLabel("PASSWORD");
+		lblPassword.setBounds(10, 64, 72, 14);
+		contentPanel.add(lblPassword);
+		
+		lblNombre = new JLabel("NOMBRE");
+		lblNombre.setBounds(10, 89, 72, 14);
+		contentPanel.add(lblNombre);
+		
+		lblApellido = new JLabel("APELLIDO");
+		lblApellido.setBounds(10, 114, 72, 14);
+		contentPanel.add(lblApellido);
+		
+		lblFechaNac = new JLabel("DIRECCION");
+		lblFechaNac.setBounds(10, 164, 72, 14);
+		contentPanel.add(lblFechaNac);
+		
+		lblCiudad = new JLabel("CIUDAD");
+		lblCiudad.setBounds(10, 214, 46, 14);
+		contentPanel.add(lblCiudad);
+		
+		lblProvincia = new JLabel("PROVINCIA");
+		lblProvincia.setBounds(10, 189, 72, 14);
+		contentPanel.add(lblProvincia);
+		
+		lblTelefono = new JLabel("TELEFONO");
+		lblTelefono.setBounds(10, 239, 72, 14);
+		contentPanel.add(lblTelefono);
+		
+		lblTipoUsuario = new JLabel("TIPO");
+		lblTipoUsuario.setBounds(10, 264, 86, 14);
+		contentPanel.add(lblTipoUsuario);
+		
+		cboProvinciaEditar = new JComboBox();
+		cboProvinciaEditar.setModel(new DefaultComboBoxModel(new String[] {"Seleccione Provincia", "Amazonas", "\u00C1ncash", "Apur\u00EDmac", "Arequipa", "Ayacucho", "Cajamarca", "Callao", "Cusco", "Huancavelica", "Hu\u00E1nuco", "Ica", "Jun\u00EDn", "La Libertad", "Lambayeque", "Lima", "Loreto", "Madre de Dios", "Moquegua", "Pasco", "Piura", "Puno", "San Mart\u00EDn", "Tacna", "Tumbes", "Ucayali"}));
+		cboProvinciaEditar.setBounds(92, 186, 205, 20);
+		contentPanel.add(cboProvinciaEditar);
+		
+		cboCiudadEditar = new JComboBox();
+		cboCiudadEditar.setModel(new DefaultComboBoxModel(new String[] {"Seleccione Ciudad"}));
+		cboCiudadEditar.setBounds(92, 211, 205, 20);
+		contentPanel.add(cboCiudadEditar);
+		
+		btnGuardar2 = new JButton("Guardar");
+		btnGuardar2.addActionListener(this);
+		btnGuardar2.setBounds(156, 343, 89, 23);
+		contentPanel.add(btnGuardar2);
+		
+		pswPasswordEditar = new JPasswordField();
+		pswPasswordEditar.setBounds(92, 61, 205, 20);
+		contentPanel.add(pswPasswordEditar);
+		
+		cboTipo = new JComboBox();
+		cboTipo.setBounds(92, 261, 205, 20);
+		contentPanel.add(cboTipo);
+		
+		lblEstado = new JLabel("ESTADO");
+		lblEstado.setBounds(10, 289, 46, 14);
+		contentPanel.add(lblEstado);
+		
+		cboEstado = new JComboBox();
+		cboEstado.setBounds(92, 286, 205, 20);
+		contentPanel.add(cboEstado);
+		
+		lblNatalicio = new JLabel("NATALICIO");
+		lblNatalicio.setBounds(10, 139, 72, 14);
+		contentPanel.add(lblNatalicio);
+		
+		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setBounds(92, 135, 205, 20);
+		contentPanel.add(dateChooser);
 	}
-	
-	//Metodo listar
-	void listarUsuarios(){
-		//1.
-		GestionUsuario gu = new GestionUsuario();
-		//2.
-		ArrayList<Usuario> lista = gu.listado();
-		//3.
-		if(lista.isEmpty()){
-			//alerta vacia
-		}else{
-			for(Usuario u : lista){
-				Object datos [] = {
-						//3.1
-						u.getId(),
-						u.getEmail(),
-						u.getPassword(),
-						u.getNombre(),
-						u.getApellido(),
-						u.getFechanacimiento(),
-						u.getDireccion(),
-						u.getCiudad(),
-						u.getProvincia(),
-						u.getTelefono(),
-						u.getTipo(),
-						u.getId()
-				};
-				modelo.addRow(datos);
-			}
-		}
-	}
-	
-	//Enviar datos
-	void enviarDatos(){
-		//1.
-		int fila = tblEditarUsuario.getSelectedRow();
-		//2.
-		EditarUsuario.txtIDEditar.setText(tblEditarUsuario.getValueAt(fila, 0).toString());
-		EditarUsuario.txtEmailEditar.setText(tblEditarUsuario.getValueAt(fila, 1).toString());
-		EditarUsuario.pswPasswordEditar.setText("");
-		EditarUsuario.txtNombreEditar.setText(tblEditarUsuario.getValueAt(fila, 3).toString());
-		EditarUsuario.txtApellidoEditar.setText(tblEditarUsuario.getValueAt(fila, 4).toString());
-		EditarUsuario.txtDireccionEditar.setText(tblEditarUsuario.getValueAt(fila, 6).toString());
-		EditarUsuario.txtTelefonoEditar.setText(tblEditarUsuario.getValueAt(fila, 9).toString());
-		EditarUsuario.txtTipoUsuarioEditar.setText(tblEditarUsuario.getValueAt(fila, 10).toString());
-		EditarUsuario.pswPasswordEditar.requestFocus();
-	}		
-	
-	//Salio así
+	//Abrio así
 	public void actionPerformed(ActionEvent arg0) {
-		if (arg0.getSource() == btnEditar) {
-			actionPerformedBtnEditar(arg0);
+		if (arg0.getSource() == btnGuardar2) {
+			actionPerformedBtnGuardar2(arg0);
 		}
 	}
-	protected void actionPerformedBtnEditar(ActionEvent arg0) {
-		EditarUsuario eu = new EditarUsuario();
-		eu.setVisible(true);
-		eu.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		//enviamos datos para editar
-		enviarDatos();
+	protected void actionPerformedBtnGuardar2(ActionEvent arg0) {
+		actualizarUsuario();
+	}
+	//---------------------------
+	//Metodo actualziar
+	@SuppressWarnings("deprecation")
+	void actualizarUsuario(){
+
+		
+		//Variables
+		int codigo;
+		String password, nombre, apellido, direccion, telefono, tipo_user;
+		
+		//Entrada
+		codigo = Integer.parseInt(txtIDEditar.getText());
+		password = pswPasswordEditar.getText();
+		nombre = txtNombreEditar.getText();
+		apellido = txtApellidoEditar.getText();
+		direccion = txtDireccionEditar.getText();
+		telefono = txtTelefonoEditar.getText();
+		tipo_user = txtTipoUsuarioEditar.getText();
+		
+		//proceso
+		Usuario u = new Usuario();
+		u.setId(codigo);
+		u.setPassword(password);
+		u.setNombre(nombre);
+		u.setApellido(apellido);
+		u.setDireccion(direccion);
+		u.setTelefono(telefono);
+		u.setTipo(tipo_user);
+		//
+		GestionUsuario gu = new GestionUsuario();
+		int ok = gu.actualizarUsuario(u);
+		//Salida
+		if(ok == 0){
+			JOptionPane.showMessageDialog(null,"Error al Actualizar");
+		}else{
+			JOptionPane.showMessageDialog(null,"Usuario Actualziado");
+		}
 	}
 }

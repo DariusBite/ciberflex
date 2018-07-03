@@ -42,7 +42,7 @@ public class FrmPanelAdministrador extends JFrame {
 	 */
 	public FrmPanelAdministrador() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 730, 485);
+		setBounds(100, 100, 730, 250);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -123,6 +123,11 @@ public class FrmPanelAdministrador extends JFrame {
 		contentPane.add(btnAadirPlanes);
 		
 		JButton btnEditarPlanes = new JButton("Editar planes");
+		btnEditarPlanes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		btnEditarPlanes.setBounds(367, 97, 157, 23);
 		contentPane.add(btnEditarPlanes);
 		
@@ -138,6 +143,11 @@ public class FrmPanelAdministrador extends JFrame {
 		contentPane.add(label_1);
 		
 		JButton btnAadirUsuario = new JButton("A\u00F1adir usuario");
+		btnAadirUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				registrate();
+			}
+		});
 		btnAadirUsuario.setBounds(546, 63, 157, 23);
 		contentPane.add(btnAadirUsuario);
 		
@@ -165,15 +175,15 @@ public class FrmPanelAdministrador extends JFrame {
 		contentPane.add(btnNewButton);
 		
 		JButton btnVideosMasVistos = new JButton("Videos mas vistos");
-		btnVideosMasVistos.setBounds(10, 198, 157, 23);
+		btnVideosMasVistos.setBounds(188, 164, 157, 23);
 		contentPane.add(btnVideosMasVistos);
 		
 		JButton btnContenidoMasVisto = new JButton("Contenido mas visto");
-		btnContenidoMasVisto.setBounds(10, 232, 157, 23);
+		btnContenidoMasVisto.setBounds(367, 164, 157, 23);
 		contentPane.add(btnContenidoMasVisto);
 		
 		JButton btnCategoriasMasVistas = new JButton("Categorias mas vistas");
-		btnCategoriasMasVistas.setBounds(10, 266, 157, 23);
+		btnCategoriasMasVistas.setBounds(546, 164, 157, 23);
 		contentPane.add(btnCategoriasMasVistas);
 	}
 	
@@ -202,8 +212,14 @@ public class FrmPanelAdministrador extends JFrame {
 	}
 	
 	void openEditarUsuario(){
-		FrmEditarUsuario u = new FrmEditarUsuario();
+		FrmEditarUsuarios u = new FrmEditarUsuarios();
 		u.setVisible(true);
+		dispose();
+	}
+	
+	void registrate(){
+		FrmRegistrar v = new FrmRegistrar();
+		v.setVisible(true);
 		dispose();
 	}
 }
