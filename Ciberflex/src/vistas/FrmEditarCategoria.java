@@ -98,6 +98,11 @@ public class FrmEditarCategoria extends JFrame {
 		contentPane.add(btnGuardar);
 		
 		JButton btnSalir = new JButton("Salir");
+		btnSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				salir();
+			}
+		});
 		btnSalir.setBounds(335, 63, 89, 23);
 		contentPane.add(btnSalir);
 		
@@ -169,6 +174,12 @@ public class FrmEditarCategoria extends JFrame {
 			}
 		}
 		else mensaje(mensaje);
+	}
+	
+	void salir(){
+		FrmEditarCategorias ec = new FrmEditarCategorias();
+		ec.setVisible(true);
+		dispose();
 	}
 	
 }

@@ -13,5 +13,9 @@ public interface VideoInterface {
 	public ArrayList<Video> listarVideosencontenidoactivos(int id);
 	
 	public ArrayList<Video> listar();
+	
+	public Video obtener(int id);
+	
+	public int editar(Video v);
 
 }

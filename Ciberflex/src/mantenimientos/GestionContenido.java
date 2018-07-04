@@ -238,4 +238,36 @@ public class GestionContenido implements ContenidoInterface{
 		return lista;
 	}
 
+	@Override
+	public int actualizar(Contenido c) {
+		int rs = 0;
+		Connection con = null;
+		PreparedStatement pst = null;
+		try{
+			con = MySQLConexion.getConexion();
+			String sql = "update CONTENIDOS set TITULO_CONTENIDO=?, DESCRIPCION_CONTENIDO=?, TIPO_CONTENIDO=?, URLIMAGE_CONTENIDO=?, ESTADO=?, where ID_CONTENIDO = ?";
+			
+			pst = con.prepareStatement(sql);
+			pst.setString(1, c.getTitulo_contenido());
+			pst.setString(2, c.getDescripcion_contenido());
+			pst.setString(3, c.getTipo_contenido());
+			pst.setString(4, c.getUrl_image_contenido());
+			pst.setInt(5, c.getEstado());
+			pst.setInt(6, c.getId_contenido());
+			
+			rs = pst.executeUpdate();
+			
+		} catch(Exception e){
+			System.out.println("Error en la Gestión Contenido registrarContenido " + e.getMessage());;
+		}finally{
+			try{
+				if(pst!=null) pst.close();
+				if(pst!=null) con.close();
+			}catch(SQLException e){
+				System.out.println("Error al cerrar");
+			}
+		}
+		return rs;
+	}
+
 }

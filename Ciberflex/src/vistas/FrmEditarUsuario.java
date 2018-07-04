@@ -8,8 +8,11 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import mantenimientos.GestionPlan;
 import mantenimientos.GestionUsuario;
+import modelado.Plan;
 import modelado.Usuario;
+import utils.Lugares;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -20,11 +23,14 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import com.toedter.calendar.JDateChooser;
 
-public class FrmEditarUsuario extends JDialog implements ActionListener {
+public class FrmEditarUsuario extends JDialog {
 
 	/**
 	 * 
@@ -32,12 +38,12 @@ public class FrmEditarUsuario extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JLabel lblEditarCampos;
-	public static JTextField txtEmailEditar;
-	public static JPasswordField pswPasswordEditar;
-	public static JTextField txtNombreEditar;
-	public static JTextField txtApellidoEditar;
-	public static JTextField txtDireccionEditar;
-	public static JTextField txtTelefonoEditar;
+	public static JTextField txtEmail;
+	public static JPasswordField txtPass;
+	public static JTextField txtNombre;
+	public static JTextField txtApellido;
+	public static JTextField txtDirec;
+	public static JTextField txtTel;
 	private JLabel lblEmail;
 	private JLabel lblPassword;
 	private JLabel lblNombre;
@@ -47,13 +53,17 @@ public class FrmEditarUsuario extends JDialog implements ActionListener {
 	private JLabel lblProvincia;
 	private JLabel lblTelefono;
 	private JLabel lblTipoUsuario;
-	private JComboBox cboProvinciaEditar;
-	private JComboBox cboCiudadEditar;
-	private JButton btnGuardar2;
+	private JComboBox cboProvincia;
+	private JComboBox cboCiudad;
+	private JButton btnGuardar;
 	private JComboBox cboTipo;
 	private JLabel lblEstado;
 	private JComboBox cboEstado;
 	private JLabel lblNatalicio;
+	private JComboBox cboPlan;
+	private JDateChooser txtFecha;
+	private Usuario u = null;
+	private int id;
 	
 
 	/**
@@ -61,7 +71,7 @@ public class FrmEditarUsuario extends JDialog implements ActionListener {
 	 */
 	public static void main(String[] args) {
 		try {
-			FrmEditarUsuario dialog = new FrmEditarUsuario();
+			FrmEditarUsuario dialog = new FrmEditarUsuario(1);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -72,7 +82,8 @@ public class FrmEditarUsuario extends JDialog implements ActionListener {
 	/**
 	 * Create the dialog.
 	 */
-	public FrmEditarUsuario() {
+	public FrmEditarUsuario(int id) {
+		this.id = id;
 		setTitle("Editar Usuario");
 		setBounds(100, 100, 400, 416);
 		getContentPane().setLayout(new BorderLayout());
@@ -86,31 +97,31 @@ public class FrmEditarUsuario extends JDialog implements ActionListener {
 		lblEditarCampos.setBounds(10, 11, 364, 14);
 		contentPanel.add(lblEditarCampos);
 		
-		txtEmailEditar = new JTextField();
-		txtEmailEditar.setEditable(false);
-		txtEmailEditar.setBounds(92, 36, 205, 20);
-		contentPanel.add(txtEmailEditar);
-		txtEmailEditar.setColumns(10);
+		txtEmail = new JTextField();
+		txtEmail.setEditable(false);
+		txtEmail.setBounds(92, 36, 205, 20);
+		contentPanel.add(txtEmail);
+		txtEmail.setColumns(10);
 		
-		txtNombreEditar = new JTextField();
-		txtNombreEditar.setBounds(92, 86, 205, 20);
-		contentPanel.add(txtNombreEditar);
-		txtNombreEditar.setColumns(10);
+		txtNombre = new JTextField();
+		txtNombre.setBounds(92, 86, 205, 20);
+		contentPanel.add(txtNombre);
+		txtNombre.setColumns(10);
 		
-		txtApellidoEditar = new JTextField();
-		txtApellidoEditar.setBounds(92, 111, 205, 20);
-		contentPanel.add(txtApellidoEditar);
-		txtApellidoEditar.setColumns(10);
+		txtApellido = new JTextField();
+		txtApellido.setBounds(92, 111, 205, 20);
+		contentPanel.add(txtApellido);
+		txtApellido.setColumns(10);
 		
-		txtDireccionEditar = new JTextField();
-		txtDireccionEditar.setBounds(92, 161, 205, 20);
-		contentPanel.add(txtDireccionEditar);
-		txtDireccionEditar.setColumns(10);
+		txtDirec = new JTextField();
+		txtDirec.setBounds(92, 161, 205, 20);
+		contentPanel.add(txtDirec);
+		txtDirec.setColumns(10);
 		
-		txtTelefonoEditar = new JTextField();
-		txtTelefonoEditar.setBounds(92, 236, 205, 20);
-		contentPanel.add(txtTelefonoEditar);
-		txtTelefonoEditar.setColumns(10);
+		txtTel = new JTextField();
+		txtTel.setBounds(92, 236, 205, 20);
+		contentPanel.add(txtTel);
+		txtTel.setColumns(10);
 		
 		lblEmail = new JLabel("EMAIL");
 		lblEmail.setBounds(10, 39, 46, 14);
@@ -148,90 +159,257 @@ public class FrmEditarUsuario extends JDialog implements ActionListener {
 		lblTipoUsuario.setBounds(10, 264, 86, 14);
 		contentPanel.add(lblTipoUsuario);
 		
-		cboProvinciaEditar = new JComboBox();
-		cboProvinciaEditar.setModel(new DefaultComboBoxModel(new String[] {"Seleccione Provincia", "Amazonas", "\u00C1ncash", "Apur\u00EDmac", "Arequipa", "Ayacucho", "Cajamarca", "Callao", "Cusco", "Huancavelica", "Hu\u00E1nuco", "Ica", "Jun\u00EDn", "La Libertad", "Lambayeque", "Lima", "Loreto", "Madre de Dios", "Moquegua", "Pasco", "Piura", "Puno", "San Mart\u00EDn", "Tacna", "Tumbes", "Ucayali"}));
-		cboProvinciaEditar.setBounds(92, 186, 205, 20);
-		contentPanel.add(cboProvinciaEditar);
+		cboProvincia = new JComboBox();
+		cboProvincia.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				changeCity();
+			}
+		});
+		cboProvincia.setBounds(92, 186, 205, 20);
+		cboProvincia.setModel(new DefaultComboBoxModel(Lugares.provincias));
+		contentPanel.add(cboProvincia);
 		
-		cboCiudadEditar = new JComboBox();
-		cboCiudadEditar.setModel(new DefaultComboBoxModel(new String[] {"Seleccione Ciudad"}));
-		cboCiudadEditar.setBounds(92, 211, 205, 20);
-		contentPanel.add(cboCiudadEditar);
+		cboCiudad = new JComboBox();
+		cboCiudad.setBounds(92, 211, 205, 20);
+		cboCiudad.setModel(new DefaultComboBoxModel(Lugares.ciudades[0]));
+		contentPanel.add(cboCiudad);
 		
-		btnGuardar2 = new JButton("Guardar");
-		btnGuardar2.addActionListener(this);
-		btnGuardar2.setBounds(156, 343, 89, 23);
-		contentPanel.add(btnGuardar2);
+		btnGuardar = new JButton("Guardar");
+		btnGuardar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				guardar();
+			}
+		});
+		btnGuardar.setBounds(7, 343, 89, 23);
+		contentPanel.add(btnGuardar);
 		
-		pswPasswordEditar = new JPasswordField();
-		pswPasswordEditar.setBounds(92, 61, 205, 20);
-		contentPanel.add(pswPasswordEditar);
+		txtPass = new JPasswordField();
+		txtPass.setBounds(92, 61, 205, 20);
+		contentPanel.add(txtPass);
 		
 		cboTipo = new JComboBox();
 		cboTipo.setBounds(92, 261, 205, 20);
 		contentPanel.add(cboTipo);
+		cboTipo.addItem("Cliente");
+		cboTipo.addItem("Administrador");
 		
 		lblEstado = new JLabel("ESTADO");
-		lblEstado.setBounds(10, 289, 46, 14);
+		lblEstado.setBounds(10, 289, 72, 14);
 		contentPanel.add(lblEstado);
 		
 		cboEstado = new JComboBox();
 		cboEstado.setBounds(92, 286, 205, 20);
 		contentPanel.add(cboEstado);
+		cboEstado.addItem("Inactivo");
+		cboEstado.addItem("Activo");
 		
 		lblNatalicio = new JLabel("NATALICIO");
 		lblNatalicio.setBounds(10, 139, 72, 14);
 		contentPanel.add(lblNatalicio);
 		
-		JDateChooser dateChooser = new JDateChooser();
-		dateChooser.setBounds(92, 135, 205, 20);
-		contentPanel.add(dateChooser);
+		txtFecha = new JDateChooser();
+		txtFecha.setBounds(92, 135, 205, 20);
+		contentPanel.add(txtFecha);
+		
+		JLabel lblPlan = new JLabel("Plan");
+		lblPlan.setBounds(10, 314, 46, 14);
+		contentPanel.add(lblPlan);
+		
+		cboPlan = new JComboBox();
+		cboPlan.setBounds(92, 311, 205, 20);
+		contentPanel.add(cboPlan);
+		
+		JButton btnSalir = new JButton("Salir");
+		btnSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				salir();
+			}
+		});
+		btnSalir.setBounds(285, 343, 89, 23);
+		contentPanel.add(btnSalir);
+		setPlans();
+		setUser();
 	}
-	//Abrio así
-	public void actionPerformed(ActionEvent arg0) {
-		if (arg0.getSource() == btnGuardar2) {
-			actionPerformedBtnGuardar2(arg0);
-		}
-	}
-	protected void actionPerformedBtnGuardar2(ActionEvent arg0) {
-		actualizarUsuario();
-	}
-	//---------------------------
-	//Metodo actualziar
-	@SuppressWarnings("deprecation")
-	void actualizarUsuario(){
 
+	
+	void changeCity(){
+		cboCiudad.setModel(new DefaultComboBoxModel(Lugares.setCiudades(cboProvincia.getSelectedIndex())));
+	}
+	
+	void setPlans(){
+		GestionPlan gp = new GestionPlan();
+		ArrayList<Plan> lista = gp.listarPlanes();
 		
-		//Variables
-		int codigo;
-		String password, nombre, apellido, direccion, telefono, tipo_user;
-		
-		//Entrada
-		codigo = Integer.parseInt(txtIDEditar.getText());
-		password = pswPasswordEditar.getText();
-		nombre = txtNombreEditar.getText();
-		apellido = txtApellidoEditar.getText();
-		direccion = txtDireccionEditar.getText();
-		telefono = txtTelefonoEditar.getText();
-		tipo_user = txtTipoUsuarioEditar.getText();
-		
-		//proceso
-		Usuario u = new Usuario();
-		u.setId(codigo);
-		u.setPassword(password);
-		u.setNombre(nombre);
-		u.setApellido(apellido);
-		u.setDireccion(direccion);
-		u.setTelefono(telefono);
-		u.setTipo(tipo_user);
-		//
-		GestionUsuario gu = new GestionUsuario();
-		int ok = gu.actualizarUsuario(u);
-		//Salida
-		if(ok == 0){
-			JOptionPane.showMessageDialog(null,"Error al Actualizar");
-		}else{
-			JOptionPane.showMessageDialog(null,"Usuario Actualziado");
+		if(!lista.isEmpty()){
+			for(Plan p : lista){
+				cboPlan.addItem(p.getNombre_plan());
+			}
 		}
+	}
+	
+	void setUser(){
+		try {
+			GestionUsuario gu = new GestionUsuario();
+			u = gu.obtenerUsuario(id);
+			String fecha = u.getFechanacimiento();
+			txtEmail.setText(u.getEmail());
+			txtPass.setText(u.getPassword());
+			txtNombre.setText(u.getNombre());
+			txtApellido.setText(u.getApellido());
+			txtTel.setText(u.getTelefono());
+			txtDirec.setText(u.getDireccion());
+			if(u.getProvincia()== null){
+				cboProvincia.setSelectedItem(0);
+				cboCiudad.setModel(new DefaultComboBoxModel(Lugares.setCiudades(0)));
+			}
+			else {
+				cboProvincia.setSelectedItem(u.getProvincia());
+				changeCity();
+			}
+			if(u.getCiudad() != null){
+				cboCiudad.setSelectedItem(u.getCiudad());
+			}
+			cboTipo.setSelectedItem(u.getTipo());
+			cboPlan.setSelectedIndex(u.getIdPlan()-1);
+			cboEstado.setSelectedIndex(u.getEstado());
+			SimpleDateFormat smf = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = smf.parse(fecha);
+			txtFecha.setDate(date);
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
+	void guardar(){
+		String pass, nombre, apellido, fnacimiento, direc, tel, prov, ciud, tipo, mensaje = "Los siguientes datos contienen errores";
+		int plan, errors = 0, estado;
+		Date actualDate;
+		GestionUsuario gu = new GestionUsuario();
+		
+		pass = leerPass();
+		nombre = leerNombre();
+		apellido = leerApellido();
+		fnacimiento = leerFecha();
+		direc = leerDirec();
+		prov = leerProv();
+		ciud = leerCiud();
+		plan = leerPlan();
+		tel = leerTel();
+		estado = leerEstado();
+		tipo = leerTipo();
+		actualDate = new Date();
+		
+		if(!pass.matches(".{6,20}")){
+			mensaje = mensaje + "\n- Contraseña muy corta o muy larga";
+			errors++;			
+		};
+		if(!nombre.matches(".{1,50}")){
+			mensaje = mensaje + "\n- Nombre";
+			errors++;	
+		};
+		if(!apellido.matches(".{1,50}")){
+			mensaje = mensaje + "\n- Apelldio";
+			errors++;	
+		};
+		if(leerDate().compareTo(actualDate) >= 0){
+			mensaje = mensaje + "\n- Error en fecha";
+			errors++;
+		};
+		if(direc.length() >= 120){
+			mensaje = mensaje+ "\n- Direccion muy larga";
+			errors++;
+		};
+		if(!tel.matches("\\d{0,12}")){
+			mensaje = mensaje+ "\n- Telefono invalido";
+			errors++;
+		};
+		
+		if(errors == 0){
+			u.setPassword(pass);
+			u.setNombre(nombre);
+			u.setApellido(apellido);
+			u.setFechanacimiento(fnacimiento);
+			u.setCiudad(ciud);
+			u.setProvincia(prov);
+			u.setIdPlan(plan);
+			u.setDireccion(direc);
+			u.setTelefono(tel);
+			u.setEstado(estado);
+			u.setTipo(tipo);
+			int ok = gu.actualizarUsuario(u);
+			if(ok == 0) mensaje("Error al actualizar usuario en la BD");
+			else {
+				mensaje("Actualizacion exitosa");
+				FrmEditarUsuarios eu = new FrmEditarUsuarios();
+				eu.setVisible(true);
+				dispose();
+			}
+		}
+		else {
+			mensaje(mensaje);
+		}
+		
+	}
+	
+	void salir(){
+		FrmEditarUsuarios eu = new FrmEditarUsuarios();
+		eu.setVisible(true);
+		dispose();
+	}
+	
+	String leerNombre(){
+		return txtNombre.getText();
+	}
+	
+	String leerApellido(){
+		return txtApellido.getText();
+	}
+	
+	String leerFecha(){
+		SimpleDateFormat sdf = new SimpleDateFormat("YYYY/MM/dd");
+		return sdf.format(txtFecha.getDate());
+	}
+	
+	Date leerDate(){
+		return txtFecha.getDate();
+	}
+	
+	String leerDirec(){
+		return txtDirec.getText();
+	}
+	
+	String leerTel(){
+		return txtTel.getText();
+	}
+	
+	String leerProv(){
+		return String.valueOf(cboProvincia.getSelectedItem());
+	}
+	
+	String leerCiud(){
+		return String.valueOf(cboCiudad.getSelectedItem());
+	}
+	
+	int leerPlan(){
+		return cboPlan.getSelectedIndex()+1;
+	}
+	
+	String leerPass(){
+		return txtPass.getText();
+	}
+	
+	String leerTipo(){
+		return cboTipo.getSelectedItem().toString();
+	}
+	
+	int leerEstado(){
+		return cboEstado.getSelectedIndex();
+	}
+
+	void mensaje(String mensaje){
+		JOptionPane.showMessageDialog(null, mensaje);
+
 	}
 }

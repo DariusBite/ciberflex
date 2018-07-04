@@ -18,7 +18,7 @@ public class GestionUsuariosVideos implements UsuariosVideosInterface{
 		PreparedStatement pst = null;
 		try{
 			con = MySQLConexion.getConexion();
-			String sql = "insert into USUARIOSCONTENIDOS(ID_USUARIO, ID_CONTENIDO, 1) values (?,?)";
+			String sql = "insert into USUARIOSVIDEOS(ID_USUARIO, ID_VIDEO, VECESVISTO) values (?,?, 1)";
 			
 			pst = con.prepareStatement(sql);
 			pst.setInt(1, uv.getId_usuario());

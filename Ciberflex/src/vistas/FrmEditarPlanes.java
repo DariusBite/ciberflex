@@ -77,8 +77,17 @@ public class FrmEditarPlanes extends JFrame {
 				editar();
 			}
 		});
-		btnEditar.setBounds(174, 227, 89, 23);
+		btnEditar.setBounds(10, 227, 89, 23);
 		contentPane.add(btnEditar);
+		
+		JButton btnSalir = new JButton("Salir");
+		btnSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				salir();
+			}
+		});
+		btnSalir.setBounds(335, 227, 89, 23);
+		contentPane.add(btnSalir);
 		modelo.addColumn("Plan");
 		modelo.addColumn("Precio");
 		modelo.addColumn("Descripcion");
@@ -100,13 +109,15 @@ public class FrmEditarPlanes extends JFrame {
 	}
 	
 	void editar(){
-		try {
 			int id = lista.get(table.getSelectedRow()).getId_plan();
 			FrmEditarPlan ep = new FrmEditarPlan(id);
 			ep.setVisible(true);
 			dispose();
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+	}
+	
+	void salir(){
+		FrmPanelAdministrador pa = new FrmPanelAdministrador();
+		pa.setVisible(true);
+		dispose();
 	}
 }

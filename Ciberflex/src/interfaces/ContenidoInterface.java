@@ -11,4 +11,5 @@ public interface ContenidoInterface {
 	public ArrayList<Contenido> listarContenidoActivo();
 	public Contenido obtenerContenido(int id);
 	public ArrayList<Contenido> buscarContenido(String texto);
+	public int actualizar(Contenido c);
 }

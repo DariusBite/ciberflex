@@ -24,7 +24,7 @@ CREATE TABLE USUARIOS (
     PROVINCIA_USUARIO VARCHAR(30),
     TELEFONO_USUARIO CHAR(12),
     TIPO_USUARIO VARCHAR(20) DEFAULT 'Cliente',
-    ID_PLAN INT,
+    ID_PLAN INT DEFAULT 1,
     ESTADO INT DEFAULT 1,
     FOREIGN KEY (ID_PLAN) REFERENCES PLANES(ID_PLAN)
 );
@@ -74,6 +74,7 @@ CREATE TABLE USUARIOSVIDEOS(
     FOREIGN KEY (ID_VIDEO) REFERENCES VIDEOS(ID_VIDEO)
 );
 
+
 CREATE TABLE USUARIOSCONTENIDOS(
 	ID_USUARIO INT NOT NULL,
     ID_CONTENIDO INT NOT NULL,
@@ -89,5 +90,52 @@ BEGIN
 select c.ID_CATEGORIA, c.TITULO_CATEGORIA, c.DESCRIPCION_CATEGORIA from CATEGORIAS as c
 inner join CONTENIDOCATEGORIA as cc on c.ID_CATEGORIA = cc.ID_CATEGORIA
 where cc.ID_CONTENIDO = ID;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE PRC_COMPRARPLANES()
+BEGIN
+select p.NOMBRE_PLAN, count(p.id_plan) as Usuarios from PLANES as p
+inner join usuarios as u
+on u.id_plan = p.id_plan;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE PRC_COMPRARPLANES_PLAN(ID INT)
+BEGIN
+select p.NOMBRE_PLAN, count(p.id_plan) as Usuarios from PLANES as p
+inner join usuarios as u
+on u.id_plan = p.id_plan
+WHERE U.id_plan = id;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE PRC_VIDEOMASVISTO()
+BEGIN
+select c.TITULO_CONTENIDO, v.TITULO_VIDEO, sum(uv.VECESVISTO) as visto from USUARIOSVIDEOS as uv
+inner join videos as v
+on uv.id_video = v.id_video
+inner join CONTENIDOS as c
+on c.id_contenido = v.id_contenido
+group by c.TITULO_CONTENIDO, v.TITULO_VIDEO
+order by visto desc;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE PRC_CATEGOMASVISTO()
+BEGIN
+select cat.TITULO_CATEGORIA, sum(uv.VECESVISTO) as visto from CATEGORIAS as cat
+inner join CONTENIDOCATEGORIA as cc
+on cat.ID_CATEGORIA = cc.ID_CATEGORIA
+inner join VIDEOS as v
+on cc.ID_CONTENIDO = v.ID_CONTENIDO
+inner join USUARIOSVIDEOS as uv
+on uv.ID_VIDEO = v.ID_VIDEO
+group by cat.TITULO_CATEGORIA
+order by visto desc;
 END $$
 DELIMITER ;

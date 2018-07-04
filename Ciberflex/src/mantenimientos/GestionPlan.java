@@ -133,7 +133,7 @@ public class GestionPlan implements PlanInterface{
 				   p.setNombre_plan(rs.getString(2));
 				   p.setPrecio_plan(rs.getDouble(3));
 				   p.setDescripcion_plan(rs.getString(4));
-				   p.setEstado(rs.getInt(1));
+				   p.setEstado(rs.getInt(5));
 			   }
 			} catch (Exception e) {
 			   System.out.println("Error en la sentencia " + e.getMessage());

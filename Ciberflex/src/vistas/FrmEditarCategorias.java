@@ -68,7 +68,7 @@ public class FrmEditarCategorias extends JFrame {
 				actualizar();
 			}
 		});
-		btnActualizar.setBounds(170, 227, 89, 23);
+		btnActualizar.setBounds(10, 227, 107, 23);
 		contentPane.add(btnActualizar);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -78,6 +78,15 @@ public class FrmEditarCategorias extends JFrame {
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		table.setModel(modelo);
+		
+		JButton btnSalir = new JButton("Salir");
+		btnSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				salir();
+			}
+		});
+		btnSalir.setBounds(335, 227, 89, 23);
+		contentPane.add(btnSalir);
 		modelo.addColumn("Titulo");
 		modelo.addColumn("Descripcion");
 		modelo.addColumn("Estado");
@@ -107,4 +116,10 @@ public class FrmEditarCategorias extends JFrame {
 			// TODO: handle exception
 		}
 	};
+	
+	void salir(){
+		FrmPanelAdministrador pa = new FrmPanelAdministrador();
+		pa.setVisible(true);
+		dispose();
+	}
 }

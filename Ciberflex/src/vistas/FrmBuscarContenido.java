@@ -141,7 +141,7 @@ public class FrmBuscarContenido extends JFrame {
 	}
 	
 	void salir(){
-		FrmListaContenido flc = new FrmListaContenido();
+		FrmListaContenidoCliente flc = new FrmListaContenidoCliente();
 		flc.setVisible(true);
 		dispose();
 	}

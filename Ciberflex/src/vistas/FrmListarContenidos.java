@@ -91,6 +91,7 @@ public class FrmListarContenidos extends JFrame implements ActionListener {
 		modelo.addColumn("Descripcion");
 		modelo.addColumn("Tipo");
 		modelo.addColumn("Imagen");
+		modelo.addColumn("Estado");
 		
 		TableColumnModel columnModel = table.getColumnModel();
 		columnModel.getColumn(0).setPreferredWidth(50);
@@ -116,12 +117,16 @@ public class FrmListarContenidos extends JFrame implements ActionListener {
 		}
 		else{
 			for(Contenido c : lista){
+				String e;
+				if(c.getEstado() == 0)e= "Inactivo";
+				else e= "Activo";
 				Object[] fila={
 						c.getId_contenido(),
 						c.getTitulo_contenido(),
 						c.getDescripcion_contenido(),
 						c.getTipo_contenido(),
-						c.getUrl_image_contenido()
+						c.getUrl_image_contenido(),
+						e
 				};
 				modelo.addRow(fila);
 			}
@@ -144,6 +149,9 @@ public class FrmListarContenidos extends JFrame implements ActionListener {
 		FrmEditarContenido.txtDescripcion.setText(table.getValueAt(fila, 2).toString());
 		FrmEditarContenido.txtImagen.setText(table.getValueAt(fila, 4).toString());
 		FrmEditarContenido.cboTipo.setSelectedItem(table.getValueAt(fila, 3).toString());
+		FrmEditarContenido.listarVideos(Integer.parseInt(table.getValueAt(fila, 0).toString()));
+		FrmEditarContenido.listarCategorias(Integer.parseInt(table.getValueAt(fila, 0).toString()));
+		FrmEditarContenido.comboBox.setSelectedItem(table.getValueAt(fila, 5).toString());
 		dispose();
 	}
 }

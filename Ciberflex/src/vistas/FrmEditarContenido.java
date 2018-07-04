@@ -47,10 +47,13 @@ public class FrmEditarContenido extends JFrame implements ActionListener {
 	private JComboBox cboCategoria;
 	public static JTextField txtImagen;
 	private JTable tblCategorias;
-	private DefaultTableModel modeloCat;
+	private static DefaultTableModel modeloCat;
 	private JLabel lblId;
 	public static JTextField txtID;
 	private JButton btnBuscar;
+	private static ArrayList<Video> lista;
+	private static ArrayList<Categoria> listaCat;
+	public static JComboBox comboBox;
 
 	/**
 	 * Launch the application.
@@ -113,10 +116,11 @@ public class FrmEditarContenido extends JFrame implements ActionListener {
 				guardar();
 			}
 		});
-		btnGuardar.setBounds(685, 7, 89, 23);
+		btnGuardar.setBounds(584, 7, 89, 23);
 		contentPane.add(btnGuardar);
 		
 		cboTipo = new JComboBox();
+		cboTipo.setEnabled(false);
 		cboTipo.setBounds(368, 80, 131, 20);
 		contentPane.add(cboTipo);
 		cboTipo.addItem("Pelicula");
@@ -128,13 +132,15 @@ public class FrmEditarContenido extends JFrame implements ActionListener {
 		
 		tblVideos = new JTable();
 		tblVideos.setCellSelectionEnabled(true);
-		scrollPane.setColumnHeaderView(tblVideos);
+		scrollPane.setViewportView(tblVideos);
 		modelo = (DefaultTableModel)tblVideos.getModel();
+		modelo.addColumn("Id");
 		modelo.addColumn("Titulo");
 		modelo.addColumn("Temporada");
 		modelo.addColumn("Descripcion");
 		modelo.addColumn("Url");
 		modelo.addColumn("Imagen");
+		modelo.addColumn("Estado");
 		
 		JLabel lblVideos = new JLabel("Videos");
 		lblVideos.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -151,14 +157,14 @@ public class FrmEditarContenido extends JFrame implements ActionListener {
 		btnAadir.setBounds(685, 327, 89, 23);
 		contentPane.add(btnAadir);
 		
-		JButton btnEliminar = new JButton("Eliminar");
-		btnEliminar.addActionListener(new ActionListener() {
+		JButton btnEditar = new JButton("Editar");
+		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				eliminarVideo();
+				editarVideo();
 			}
 		});
-		btnEliminar.setBounds(685, 361, 89, 23);
-		contentPane.add(btnEliminar);
+		btnEditar.setBounds(685, 361, 89, 23);
+		contentPane.add(btnEditar);
 		
 		JSeparator separator = new JSeparator();
 		separator.setBounds(10, 305, 350, 2);
@@ -204,7 +210,7 @@ public class FrmEditarContenido extends JFrame implements ActionListener {
 		contentPane.add(scrollPane_1);
 		
 		tblCategorias = new JTable();
-		scrollPane_1.setColumnHeaderView(tblCategorias);
+		scrollPane_1.setViewportView(tblCategorias);
 		modeloCat = (DefaultTableModel)tblCategorias.getModel();
 		modeloCat.addColumn("Categoria");
 		
@@ -233,13 +239,30 @@ public class FrmEditarContenido extends JFrame implements ActionListener {
 		btnBuscar.setBounds(177, 36, 35, 35);
 		contentPane.add(btnBuscar);
 		
+		JButton btnSalir = new JButton("Salir");
+		btnSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				salir();
+			}
+		});
+		btnSalir.setBounds(685, 7, 89, 23);
+		contentPane.add(btnSalir);
+		
+		JLabel lblEstado = new JLabel("Estado");
+		lblEstado.setBounds(242, 111, 46, 14);
+		contentPane.add(lblEstado);
+		
+		comboBox = new JComboBox();
+		comboBox.setBounds(368, 108, 131, 20);
+		contentPane.add(comboBox);
+		comboBox.addItem("Inactivo");
+		comboBox.addItem("Activo");
+		
 		setCategorias();
 	}
 	
 	void openVideo(){
-		cboTipo.setEditable(false);
-		cboTipo.setEnabled(false);
-		FrmAddVideo v = new FrmAddVideo();
+		FrmAddVideo2 v = new FrmAddVideo2(leerId());
 		v.setVisible(true);
 	}
 	
@@ -247,29 +270,29 @@ public class FrmEditarContenido extends JFrame implements ActionListener {
 		modelo.addRow(fila);
 	}
 	
-	void eliminarVideo(){
-		if(leerVideos().isEmpty()){
-			cboTipo.setEditable(true);
-			cboTipo.setEnabled(true);
-		}
-		else {
-			modelo.removeRow(tblVideos.getSelectedRow());
-		}
+	void editarVideo(){
+		System.out.println(tblVideos.getSelectedRow());
+		int idv = lista.get(tblVideos.getSelectedRow()).getId_video();
+		FrmEditVideo ev = new FrmEditVideo(idv, leerId());
+		ev.setVisible(true);
 	}
 	
 	String leerTipo(){
 		return String.valueOf(cboTipo.getSelectedItem());
 	}
 	
+	int leerEstado(){
+		return comboBox.getSelectedIndex();
+	}
+	
 	void guardar(){
 		String titulo, tipo, descripcion, imagen, mensaje = "Los siguientes campos contienen errores";
 		ArrayList<String[]> videos;
 		ArrayList<String> categorias;
-		int errors = 0;
+		int errors = 0, estado, id;
 		GestionContenido gc = new GestionContenido();
 		GestionCategoria gcat = new GestionCategoria();
 		GestionContenidoCategoria gcc = new GestionContenidoCategoria();
-		GestionVideo gv = new GestionVideo();
 		
 		titulo = leerTitulo();
 		categorias = leerTblCategorias();
@@ -277,6 +300,8 @@ public class FrmEditarContenido extends JFrame implements ActionListener {
 		videos = leerVideos();
 		imagen = leerImagen();
 		tipo = leerTipo();
+		estado = leerEstado();
+		id = leerId();
 		
 		if(!titulo.matches(".{1,80}")){
 			mensaje = mensaje + "\n- Titulo";
@@ -302,30 +327,24 @@ public class FrmEditarContenido extends JFrame implements ActionListener {
 		if(errors == 0){
 			int er2 = 0;
 			Contenido c = new Contenido();
+			c.setId_contenido(id);
 			c.setTitulo_contenido(titulo);
 			c.setDescripcion_contenido(descripcion);
 			c.setTipo_contenido(tipo);
 			c.setUrl_image_contenido(imagen);
-			gc.registrarContenido(c);
-			
-			for(String[] s: videos){
-				Video v = new Video();
-				v.setId_contenido(gc.ultimoIdContenido());
-				v.setTitulo_video(s[0]);
-				v.setTemporada_video(Integer.parseInt(s[1]));
-				v.setDescripcion_video(s[2]);
-				v.setUrl_video(s[3]);
-				v.setUrl_imagen_video(s[4]);
-				gv.registrarVideo(v);
-			}
+			c.setEstado(estado);
+			gc.actualizar(c);
+			gcc.remove(id);
 			
 			for(String s: categorias){
 				ContenidoCategoria cc = new ContenidoCategoria();
-				cc.setId_contenido(gc.ultimoIdContenido());
+				cc.setId_contenido(id);
 				cc.setId_categoria(gcat.obtenerCategoriaXTitulo(s).getId_categoria());
 				gcc.registarContenidoCategoria(cc);
 			}
 			mensaje("Registro exitoso");
+			FrmPanelAdministrador pa = new FrmPanelAdministrador();
+			pa.setVisible(true);
 			dispose();
 
 		}
@@ -379,6 +398,10 @@ public class FrmEditarContenido extends JFrame implements ActionListener {
 		return txtImagen.getText();
 	}
 	
+	static int leerId(){
+		return Integer.parseInt(txtID.getText());
+	}
+	
 	ArrayList<String[]> leerVideos(){
 		ArrayList<String[]> lista = new ArrayList<String[]>();
 		int rows = tblVideos.getRowCount();
@@ -426,5 +449,57 @@ public class FrmEditarContenido extends JFrame implements ActionListener {
 	private void mostrarConsultarContenido() {
 		FrmListarContenidos li = new FrmListarContenidos();
 		li.setVisible(true);
+	}
+	
+	void salir(){
+		FrmPanelAdministrador pa = new FrmPanelAdministrador();
+		pa.setVisible(true);
+		dispose();
+	}
+	
+	public static void listarVideos(int id){
+		int rowCount = modelo.getRowCount();
+		//Remove rows one by one from the end of the table
+		for (int i = rowCount - 1; i >= 0; i--) {
+		    modelo.removeRow(i);
+		}
+		
+		GestionVideo gv = new GestionVideo();
+		lista = gv.listarVideosencontenido(leerId());
+		for(Video v: lista){
+			String e;
+			if(v.getEstado()==0)e="Inactivo";
+			else e="Activo";
+			Object[] fila = {
+					v.getId_video(),
+					v.getTitulo_video(),
+					v.getTemporada_video(),
+					v.getDescripcion_video(),
+					v.getUrl_video(),
+					v.getUrl_imagen_video(),
+					e
+			};
+			modelo.addRow(fila);
+		}
+		
+	}
+	
+	public static void listarCategorias(int id){
+		int rowCount = modeloCat.getRowCount();
+		//Remove rows one by one from the end of the table
+		for (int i = rowCount - 1; i >= 0; i--) {
+			modeloCat.removeRow(i);
+		}
+		
+		GestionCategoria gc = new GestionCategoria();
+		listaCat = gc.listarCategoriasenContenido(id);
+		for(Categoria c: listaCat){
+			Object[] fila = {
+					c.getTitulo_categoria()
+			};
+			modeloCat.addRow(fila);
+		}
+		
+		
 	}
 }

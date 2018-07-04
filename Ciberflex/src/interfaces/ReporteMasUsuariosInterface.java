@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public interface ReporteMasUsuariosInterface {
 	
 	//Metodo para el reporte
-	public int reportePlan(int id_plan);
+	public ArrayList<ReportePlanMasUsuarios> reportePlan();
+	public ArrayList<ReportePlanMasUsuarios> reportePlan(int id);
 
 }

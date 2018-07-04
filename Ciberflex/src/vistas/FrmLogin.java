@@ -128,7 +128,7 @@ public class FrmLogin extends JFrame {
 			if(u != null) {
 				UserSession.setId(u.getId());
 				if (u.getTipo().equals("Cliente")){
-					FrmListaContenido v = new FrmListaContenido();
+					FrmListaContenidoCliente v = new FrmListaContenidoCliente();
 					v.setVisible(true);
 					dispose();
 				};

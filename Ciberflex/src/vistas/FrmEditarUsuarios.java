@@ -23,7 +23,7 @@ import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class FrmEditarUsuarios extends JFrame implements ActionListener {
+public class FrmEditarUsuarios extends JFrame{
 
 
 	private static final long serialVersionUID = 1L;
@@ -32,6 +32,8 @@ public class FrmEditarUsuarios extends JFrame implements ActionListener {
 	private JScrollPane scrollPane;
 	private JButton btnEditar;
 	private JTable tblEditarUsuario;
+	private DefaultTableModel modelo = new DefaultTableModel();
+	private ArrayList<Usuario> lista;
 
 
 	public static void main(String[] args) {
@@ -46,9 +48,6 @@ public class FrmEditarUsuarios extends JFrame implements ActionListener {
 			}
 		});
 	}
-
-	//Variable local para el modelo de la tabla
-	DefaultTableModel modelo = new DefaultTableModel();
 
 	public FrmEditarUsuarios() {
 		setTitle("Lista de Usuarios");
@@ -86,8 +85,12 @@ public class FrmEditarUsuarios extends JFrame implements ActionListener {
 		scrollPane.setViewportView(tblEditarUsuario);
 		
 		btnEditar = new JButton("Editar");
-		btnEditar.addActionListener(this);
 		btnEditar.setBounds(453, 68, 89, 23);
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				openEditarUsuario();
+			}
+		});
 		contentPane.add(btnEditar);
 		
 		//lLAMAMOS AL METODO LISTAR USUARIOS
@@ -100,7 +103,7 @@ public class FrmEditarUsuarios extends JFrame implements ActionListener {
 		GestionUsuario gu = new GestionUsuario();
 		GestionPlan gp = new GestionPlan();
 		//2.
-		ArrayList<Usuario> lista = gu.listado();
+		lista = gu.listado();
 		//3.
 		if(lista.isEmpty()){
 			//alerta vacia
@@ -130,32 +133,15 @@ public class FrmEditarUsuarios extends JFrame implements ActionListener {
 	}
 	
 	//Enviar datos
-	void enviarDatos(){
-		//1.
-		int fila = tblEditarUsuario.getSelectedRow();
-		//2.
-		FrmEditarUsuario.txtIDEditar.setText(tblEditarUsuario.getValueAt(fila, 0).toString());
-		FrmEditarUsuario.txtEmailEditar.setText(tblEditarUsuario.getValueAt(fila, 1).toString());
-		FrmEditarUsuario.pswPasswordEditar.setText("");
-		FrmEditarUsuario.txtNombreEditar.setText(tblEditarUsuario.getValueAt(fila, 3).toString());
-		FrmEditarUsuario.txtApellidoEditar.setText(tblEditarUsuario.getValueAt(fila, 4).toString());
-		FrmEditarUsuario.txtDireccionEditar.setText(tblEditarUsuario.getValueAt(fila, 6).toString());
-		FrmEditarUsuario.txtTelefonoEditar.setText(tblEditarUsuario.getValueAt(fila, 9).toString());
-		FrmEditarUsuario.txtTipoUsuarioEditar.setText(tblEditarUsuario.getValueAt(fila, 10).toString());
-		FrmEditarUsuario.pswPasswordEditar.requestFocus();
-	}		
-	
-	//Salio así
-	public void actionPerformed(ActionEvent arg0) {
-		if (arg0.getSource() == btnEditar) {
-			actionPerformedBtnEditar(arg0);
+	void openEditarUsuario(){
+		try {
+			int row = tblEditarUsuario.getSelectedRow();
+			FrmEditarUsuario eu = new FrmEditarUsuario(lista.get(row).getId());
+			eu.setVisible(true);
+			dispose();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
-	}
-	protected void actionPerformedBtnEditar(ActionEvent arg0) {
-		FrmEditarUsuario eu = new FrmEditarUsuario();
-		eu.setVisible(true);
-		eu.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		//enviamos datos para editar
-		enviarDatos();
-	}
+	}	
 }

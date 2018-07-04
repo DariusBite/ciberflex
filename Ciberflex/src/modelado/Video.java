@@ -1,7 +1,7 @@
 package modelado;
 
 public class Video {
-	private int id_video, id_contenido, temporada_video;
+	private int id_video, id_contenido, temporada_video, estado;
     private String titulo_video, descripcion_video, url_video, url_imagen_video;
 	public int getId_video() {
 		return id_video;
@@ -44,5 +44,11 @@ public class Video {
 	}
 	public void setUrl_imagen_video(String url_imagen_video) {
 		this.url_imagen_video = url_imagen_video;
+	}
+	public int getEstado() {
+		return estado;
+	}
+	public void setEstado(int estado) {
+		this.estado = estado;
 	}
 }

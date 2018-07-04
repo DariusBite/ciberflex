@@ -38,4 +38,31 @@ public class GestionContenidoCategoria implements ContenidoCategoriaInterface{
 		return rs;
 	}
 
+	@Override
+	public int remove(int id) {
+		int rs = 0;
+		Connection con = null;
+		PreparedStatement pst = null;
+		try{
+			con = MySQLConexion.getConexion();
+			String sql = "delete from CONTENIDOCATEGORIA where ID_CONTENIDO = ?";
+			
+			pst = con.prepareStatement(sql);
+			pst.setInt(1, id);
+			
+			rs = pst.executeUpdate();
+			
+		} catch(Exception e){
+			System.out.println("Error en la Gestión Contenido Categoria " + e.getMessage());;
+		}finally{
+			try{
+				if(pst!=null) pst.close();
+				if(pst!=null) con.close();
+			}catch(SQLException e){
+				System.out.println("Error al cerrar");
+			}
+		}
+		return rs;
+	}
+
 }

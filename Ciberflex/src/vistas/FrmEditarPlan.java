@@ -37,7 +37,7 @@ public class FrmEditarPlan extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrmEditarPlan frame = new FrmEditarPlan(0);
+					FrmEditarPlan frame = new FrmEditarPlan(1);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -49,8 +49,8 @@ public class FrmEditarPlan extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FrmEditarPlan(int id_p) {
-		id = id_p;
+	public FrmEditarPlan(int id) {
+		this.id = id;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -168,8 +168,8 @@ public class FrmEditarPlan extends JFrame {
 			if(ok == 0) mensaje("Error al registrar plan en la BD");
 			else {
 				mensaje("Registro exitoso");
-				FrmPanelAdministrador fpa = new FrmPanelAdministrador();
-				fpa.setVisible(true);
+				FrmEditarPlanes ep = new FrmEditarPlanes();
+				ep.setVisible(true);
 				dispose();
 			}
 		}
@@ -199,8 +199,8 @@ public class FrmEditarPlan extends JFrame {
 	}
 	
 	void salir(){
-		FrmPanelAdministrador fpa = new FrmPanelAdministrador();
-		fpa.setVisible(true);
+		FrmEditarPlanes ep = new FrmEditarPlanes();
+		ep.setVisible(true);
 		dispose();
 	}
 	

@@ -124,7 +124,7 @@ public class FrmAddContenido extends JFrame {
 		
 		tblVideos = new JTable();
 		tblVideos.setCellSelectionEnabled(true);
-		scrollPane.setColumnHeaderView(tblVideos);
+		scrollPane.setViewportView(tblVideos);
 		modelo = (DefaultTableModel)tblVideos.getModel();
 		modelo.addColumn("Titulo");
 		modelo.addColumn("Temporada");
@@ -200,7 +200,7 @@ public class FrmAddContenido extends JFrame {
 		contentPane.add(scrollPane_1);
 		
 		tblCategorias = new JTable();
-		scrollPane_1.setColumnHeaderView(tblCategorias);
+		scrollPane_1.setViewportView(tblCategorias);
 		modeloCat = (DefaultTableModel)tblCategorias.getModel();
 		modeloCat.addColumn("Categoria");
 		

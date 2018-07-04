@@ -99,6 +99,11 @@ public class FrmPanelAdministrador extends JFrame {
 		contentPane.add(btnAnadirCategoria);
 		
 		JButton btnEditarCategoria = new JButton("Editar categorias");
+		btnEditarCategoria.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openEditarCats();
+			}
+		});
 		btnEditarCategoria.setBounds(188, 97, 157, 23);
 		contentPane.add(btnEditarCategoria);
 		
@@ -125,7 +130,7 @@ public class FrmPanelAdministrador extends JFrame {
 		JButton btnEditarPlanes = new JButton("Editar planes");
 		btnEditarPlanes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				openEditarPlanes();
 			}
 		});
 		btnEditarPlanes.setBounds(367, 97, 157, 23);
@@ -171,19 +176,20 @@ public class FrmPanelAdministrador extends JFrame {
 		contentPane.add(label_2);
 		
 		JButton btnNewButton = new JButton("Planes con mas usuarios");
-		btnNewButton.setBounds(10, 164, 157, 23);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openR1();
+			}
+		});
+		btnNewButton.setBounds(10, 164, 187, 23);
 		contentPane.add(btnNewButton);
 		
 		JButton btnVideosMasVistos = new JButton("Videos mas vistos");
-		btnVideosMasVistos.setBounds(188, 164, 157, 23);
+		btnVideosMasVistos.setBounds(281, 164, 157, 23);
 		contentPane.add(btnVideosMasVistos);
 		
-		JButton btnContenidoMasVisto = new JButton("Contenido mas visto");
-		btnContenidoMasVisto.setBounds(367, 164, 157, 23);
-		contentPane.add(btnContenidoMasVisto);
-		
 		JButton btnCategoriasMasVistas = new JButton("Categorias mas vistas");
-		btnCategoriasMasVistas.setBounds(546, 164, 157, 23);
+		btnCategoriasMasVistas.setBounds(506, 164, 197, 23);
 		contentPane.add(btnCategoriasMasVistas);
 	}
 	
@@ -220,6 +226,32 @@ public class FrmPanelAdministrador extends JFrame {
 	void registrate(){
 		FrmRegistrar v = new FrmRegistrar();
 		v.setVisible(true);
+	}
+	
+	void openEditarCats(){
+		FrmEditarCategorias ec = new FrmEditarCategorias();
+		ec.setVisible(true);
 		dispose();
+	}
+	
+	void openEditarPlanes(){
+		FrmEditarPlanes ep = new FrmEditarPlanes();
+		ep.setVisible(true);
+		dispose();
+	}
+	
+	void openR1(){
+		FrmReportePlanesUsuarios pu = new FrmReportePlanesUsuarios();
+		pu.setVisible(true);
+	}
+	
+	void openR2(){
+		FrmReporteVideosMasVistos pu = new FrmReporteVideosMasVistos();
+		pu.setVisible(true);
+	}
+	
+	void openR3(){
+		FrmReporteCategorias pu = new FrmReporteCategorias();
+		pu.setVisible(true);
 	}
 }

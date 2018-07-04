@@ -277,8 +277,8 @@ public class FrmEditarPerfil extends JFrame {
 			mensaje = mensaje+ "\n- Direccion muy larga";
 			errors++;
 		};
-		if(tel.length() >= 12){
-			mensaje = mensaje+ "\n- Telefono muy largo";
+		if(!tel.matches("\\d{0,12}")){
+			mensaje = mensaje+ "\n- Telefono invalido";
 			errors++;
 		};
 		

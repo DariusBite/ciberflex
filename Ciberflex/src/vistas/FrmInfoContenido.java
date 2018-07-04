@@ -222,6 +222,7 @@ public class FrmInfoContenido extends JFrame {
 			uv.setId_usuario(UserSession.getId());
 			uv.setId_video(id_v);
 			uv.setVecesvisto(1);
+			guv.registrar(uv);
 		}
 		else{
 			int newCant = uv.getVecesvisto() + 1;
@@ -232,7 +233,7 @@ public class FrmInfoContenido extends JFrame {
 	}
 	
 	void regresar(){
-		FrmListaContenido lc = new FrmListaContenido();
+		FrmListaContenidoCliente lc = new FrmListaContenidoCliente();
 		lc.setVisible(true);
 		dispose();
 	}

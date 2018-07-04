@@ -8,6 +8,7 @@ import java.io.File;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -25,6 +26,8 @@ public class FrmReproductor extends JFrame {
 	private File f;
 	private JFXPanel panel;
 	private int id_c;
+	private MediaPlayer mediaPlayer;
+	private MediaView mediaView;
 
 	/**
 	 * Launch the application.
@@ -46,6 +49,7 @@ public class FrmReproductor extends JFrame {
 	 * Create the frame.
 	 */
 	public FrmReproductor(String url, int id) {
+		Platform.setImplicitExit(false);
 		if(url != null)	miniUrl = url;
 		if(id !=0) id_c = id;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -56,10 +60,10 @@ public class FrmReproductor extends JFrame {
 		f = new File(workingDir, miniUrl);
 		
 		Media media = new Media(f.toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-        MediaView mediaView = new MediaView(mediaPlayer);
+        mediaView = new MediaView(mediaPlayer);
         Group root = new Group();
         Scene scene = new Scene(root,1280,600);
         root.getChildren().add(mediaView);
@@ -77,6 +81,10 @@ public class FrmReproductor extends JFrame {
 	}
 	
 	void salir(){
+		mediaPlayer.stop();
+		mediaPlayer.dispose();
+		mediaPlayer = null;
+		remove(panel);
 		FrmInfoContenido ic = new FrmInfoContenido(id_c);
 		ic.setVisible(true);
 		dispose();
