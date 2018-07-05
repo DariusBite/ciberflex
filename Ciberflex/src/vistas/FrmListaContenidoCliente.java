@@ -134,9 +134,10 @@ public class FrmListaContenidoCliente extends JFrame {
 	void loadContendio(){
 		GestionContenido gc = new GestionContenido();
 		ArrayList<Contenido> lista = gc.listarContenidoActivo();
-		int x= 10, y= 10, l=210;
+		int x= 10, y= 10, l=210, i=0;
 		
 		for(Contenido c : lista){
+			i++;
 			ImageIcon imageIcon = new ImageIcon(c.getUrl_image_contenido()); // load the image to a imageIcon
 			Image image = imageIcon.getImage(); // transform it 
 			Image newimg = image.getScaledInstance(150, 200,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
@@ -150,14 +151,15 @@ public class FrmListaContenidoCliente extends JFrame {
 					openInfoContenido(c.getId_contenido());
 				}
 			});
-			btnContenido.setBounds(x, y, 150, 200);
-			panel.add(btnContenido);
-			x = x + 160;
-			if(x > 400){
+			if(i == 4){
 				x = 10;
 				y = y+210;
 				l = l+210;
+				i = 0;
 			}
+			btnContenido.setBounds(x, y, 150, 200);
+			panel.add(btnContenido);
+			x = x + 160;
 		}
 		panel.setPreferredSize(new Dimension(567, l));
 		

@@ -110,6 +110,7 @@ public class FrmInfoContenido extends JFrame {
 		cboPuntuacion = new JComboBox();
 		cboPuntuacion.setBounds(10, 157, 36, 20);
 		contentPane.add(cboPuntuacion);
+		cboPuntuacion.addItem(' ');
 		cboPuntuacion.addItem('1');
 		cboPuntuacion.addItem('2');
 		cboPuntuacion.addItem('3');
@@ -179,6 +180,11 @@ public class FrmInfoContenido extends JFrame {
 			x = x + 110;
 		}
 		panel.setPreferredSize(new Dimension(170, x));
+		GestionUsuariosContenidos guc = new GestionUsuariosContenidos();
+		UsuariosContenidos uc = guc.obtener(UserSession.getId(), id);
+		if(uc != null){
+			cboPuntuacion.setSelectedIndex(uc.getPuntuacion());
+		}
 	}
 	
 	void openVideo(String url, int id){
@@ -194,7 +200,8 @@ public class FrmInfoContenido extends JFrame {
 		uc.setId_contenido(id);
 		uc.setId_usuario(UserSession.getId());
 		uc.setPuntuacion(puntuacion);
-		guc.registrarPuntuacion(uc);		
+		guc.registrarPuntuacion(uc);	
+		
 	}
 	
 	void guardar(){
@@ -210,7 +217,7 @@ public class FrmInfoContenido extends JFrame {
 	}
 	
 	int leerPuntuacion(){
-		return cboPuntuacion.getSelectedIndex()+1;
+		return cboPuntuacion.getSelectedIndex();
 	}
 	
 	void guardarVideo(int id_v){

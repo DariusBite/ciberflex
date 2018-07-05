@@ -185,10 +185,20 @@ public class FrmPanelAdministrador extends JFrame {
 		contentPane.add(btnNewButton);
 		
 		JButton btnVideosMasVistos = new JButton("Videos mas vistos");
+		btnVideosMasVistos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				openR2();
+			}
+		});
 		btnVideosMasVistos.setBounds(281, 164, 157, 23);
 		contentPane.add(btnVideosMasVistos);
 		
 		JButton btnCategoriasMasVistas = new JButton("Categorias mas vistas");
+		btnCategoriasMasVistas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				openR3();
+			}
+		});
 		btnCategoriasMasVistas.setBounds(506, 164, 197, 23);
 		contentPane.add(btnCategoriasMasVistas);
 	}
